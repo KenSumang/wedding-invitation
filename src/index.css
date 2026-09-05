@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+@theme {
+  /* This creates the utility class: font-montserrat */
+  --font-montserrat: "Montserrat", sans-serif;
+
+
+  --font-weight-ultra-thick: 1000;
+  --font-weight-demi: 650;
+  --font-weight-semibold: 520;
+}
