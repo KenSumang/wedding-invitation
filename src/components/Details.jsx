@@ -1,4 +1,4 @@
-import react from 'react';
+import React from 'react';
 
 function Details() {
     const details = [
@@ -11,15 +11,17 @@ function Details() {
         return(
             detailItems.map((detail) => {
                 return (
-                    <div className="flex items-center gap-6 justify-start w-full h-[94px] bg-[#F5F5F5]">
-                        <img src="" alt="Detail Image"/>
-                        <div className="line w-[0.4px] h-10 bg-black"></div>
-                        <div className="details flex flex-col gap-[5px]">
-                            <p className="text-[8px] font-light">{detail.label}</p>
-                            <h2 className="text-[10px] font-normal">{detail.title}</h2>
-                            <p className="text-[8px] font-normal">{detail.details}</p>
+                    <React.Fragment key={detail.id}>
+                        <div className="flex items-center gap-6 justify-start w-full h-[94px] bg-[#F5F5F5]">
+                            <img src="" alt="Detail Image"/>
+                            <div className="line w-[0.4px] h-10 bg-black"></div>
+                            <div className="details flex flex-col gap-[5px]">
+                                <p className="text-[8px] font-light">{detail.label}</p>
+                                <h2 className="text-[10px] font-normal">{detail.title}</h2>
+                                <p className="text-[8px] font-normal">{detail.details}</p>
+                            </div>
                         </div>
-                    </div>
+                    </React.Fragment>
                 )
             })
         );
