@@ -9,10 +9,12 @@ function App() {
 
   return (
     <>
-      <div className="header-banner h-[45vh] md:h-dvh bg-[url('./src/assets/Banner-Background.png')] bg-no-repeat bg-auto md:bg-cover bg-center">
+      {/* <div className="header-banner h-[45vh] md:h-dvh bg-[url('./src/assets/Banner-Background.png')] bg-no-repeat bg-auto md:bg-cover bg-center">
         <Header />
         <Banner />
-      </div>
+      </div> */}
+      <Header />
+      <Banner />
       <Details />
       <ScheduleOfEvents />
       <CountdownTimer />
