@@ -3,12 +3,12 @@ import react from 'react';
 function Header() {
 
     return (
-        <header className="header flex justify-center w-full">
+        <header className="header flex justify-center w-full fixed">
             <div className="container max-w-full px-4 sm:px-6 max-w-380">
                 <div className="wrapper w-full h-[44px] md:h-[58px]">
                     <div className="contents h-full mx-auto flex items-center justify-between">
 
-                        <h2 classname="order-first md:order-last">K & CJ</h2>
+                        <h2 classname="order-first md:order-last">A & E</h2>
 
                         <ul className="header-nav-links flex gap-8 hidden order-last mx-auto md:flex md:order-first text-[14px]">
                             <li>HOME</li>
