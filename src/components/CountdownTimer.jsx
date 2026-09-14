@@ -128,7 +128,7 @@ export default function CountdownTimer({
           </div>
 
           <p className="mt-10 text-sm font-sans text-[#EDE8DD]/50">
-            until we say 'I do' on {formattedTarget}
+            until we say 'I do'
           </p>
         </>
       )}
