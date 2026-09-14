@@ -10,10 +10,11 @@ const BOTTOM_DIMS = { width: 960, height: 708 };
 const TOP_DIMS = { width: 960, height: 489 };
 
 const TIMING = {
+  shake: 1,
   flapToEdge: 0.35,
-  flapToBack: 0.35,
+  flapToBack: 0.8,
   letterOverlap: 0.15,
-  letterSlide: 0.5,
+  letterSlide: 1,
   overlayOverlap: 0.15,
   overlayIn: 0.4,
 };
@@ -36,6 +37,20 @@ export default function EnvelopeCTA({
     () => {
       timelineRef.current = gsap
         .timeline({ paused: true })
+        // Anticipation beat: a quick decaying wiggle on the whole envelope
+        // before it opens, like someone giving it a nudge. This is a 2D
+        // z-axis rotate on the container — separate from the flap's own
+        // rotateX below, so the two don't fight over the transform.
+        .to(containerRef.current, {
+          keyframes: [
+            { rotate: -4, duration: TIMING.shake * 0.18 },
+            { rotate: 4, duration: TIMING.shake * 0.18 },
+            { rotate: -2.5, duration: TIMING.shake * 0.16 },
+            { rotate: 2.5, duration: TIMING.shake * 0.16 },
+            { rotate: 0, duration: TIMING.shake * 0.32 },
+          ],
+          ease: "power1.inOut",
+        })
         .to(flapRef.current, {
           rotateX: -90,
           duration: TIMING.flapToEdge,
