@@ -2,7 +2,7 @@ import react from 'react';
 
 function Banner() {
     return (
-        <section className="banner w-full h-dvh bg-[url('./src/assets/A&E_banner_sm.avif')] md:bg-[url('./src/assets/A&E_banner_lg.avif')] bg-[55%_110%] bg-[length:auto_120%] md:bg-[55%_80%] bg-norepeat bg-cover">
+        <section id="banner" className="banner w-full h-dvh bg-[url('./src/assets/A&E_banner_sm.avif')] md:bg-[url('./src/assets/A&E_banner_lg.avif')] bg-[55%_110%] bg-[length:auto_120%] md:bg-[55%_80%] bg-norepeat bg-cover">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-black z-0"></div>
             <div className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
                 <div className="wrapper w-full h-full flex flex-col md:items-start md:justify-center">
