@@ -1,26 +1,20 @@
-import react from 'react';
-import Header from './components/Header';
-import Banner from './components/Banner';
-import Details from './components/Details';
-import CountdownTimer from './components/CountdownTimer';
-import { ScheduleOfEvents } from './components/ScheduleOfEvents';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import LandingPage from "./pages/LandingPage";
+import InvitationPage from "./pages/MainPage";
+import PageTransition from "./components/PageTransition";
 
 function App() {
-
   return (
-    <>
-      {/* <div className="header-banner h-[45vh] md:h-dvh bg-[url('./src/assets/Banner-Background.png')] bg-no-repeat bg-auto md:bg-cover bg-center">
-        <Header />
-        <Banner />
-      </div> */}
-      <Header />
-      <Banner />
-      <Details />
-      <ScheduleOfEvents />
-      <CountdownTimer />
+    <BrowserRouter>
+      <PageTransition />
 
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/app" element={<InvitationPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
