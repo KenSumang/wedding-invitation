@@ -37,28 +37,56 @@ function Header() {
                 }}
             />
             
-            <div className="container relative z-10 max-w-full px-4 sm:px-6 max-w-380">
-                <div className="wrapper w-full h-[70px] md:h-[58px]">
+            <div className="container relative z-10 max-w-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
+                <div className="wrapper w-full h-[70px] md:h-[58px] 2xl:h-[70px]">
                     <div className="contents h-full mx-auto flex items-center justify-between">
 
-                        <div className="header-logo flex items-center gap-1.5 order-first md:order-last">
-                            <h2 className="text-[24px] md:text-[26px]">A</h2>
-                            <p className="text-[22px] md:text-[24px]">&</p>
-                            <h2 className="text-[24px] md:text-[26px]">E</h2>
-                        </div>
+                        <a href="#">
+                            <div className="header-logo flex items-center gap-2 order-first">
+                                <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">A</h2>
+                                <p className="text-[22px] md:text-[24px] 2xl:text-[30px]">&</p>
+                                <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">E</h2>
+                            </div>
+                        </a>
 
-                        <ul className="header-nav-links flex gap-8 hidden order-last mx-auto md:flex md:order-first text-[14px]">
-                            <li>HOME</li>
-                            <li>OUR STORY</li>
-                            <li>DETAILS</li>
-                            <li>RSVP</li>
-                            <li>GALLERY</li>
+                        <ul className="header-nav-links h-full flex gap-1 hidden ml-auto md:flex text-[11px] 2xl:gap-8 2xl:text-[13px] uppercase tracking-widest">
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Home</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Our Story</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Venue</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Dress Code</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Schedule</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">FAQ</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Gifts</a>
+                            </li>
+
+                            <li className="h-full flex items-center">
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">RSVP</a>
+                            </li>
                         </ul>
 
                         <div className="header-hamburger grid grid-cols-1 gap-1.5 justify-items-center md:hidden py-3 cursor-pointer">
-                            <div className="w-[28px] h-0.5 bg-black"></div>
-                            <div className="w-[28px] h-0.5 bg-black"></div>
-                            <div className="w-[28px] h-0.5 bg-black"></div>
+                            <div className="w-[26px] h-0.5 bg-black"></div>
+                            <div className="w-[26px] h-0.5 bg-black"></div>
+                            <div className="w-[26px] h-0.5 bg-black"></div>
                         </div>
                     </div>
                 </div>
