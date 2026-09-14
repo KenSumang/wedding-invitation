@@ -9,7 +9,7 @@ function Banner() {
                     
                     <div className="flex flex-col items-center gap-5 mt-auto mb-20 md:mt-14 md:items-start">
 
-                        <p className="subtitle text-[14px] tracking-wider text-white md:text-[18px]">TOGETHER FOREVER</p>
+                        <p className="subtitle text-[14px] tracking-widest text-white md:text-[18px]">TOGETHER FOREVER</p>
 
                         <div className="banner-title flex flex-col gap-1.5 items-center text-[50px] mb-1 md:text-[74px] md:gap-8 md:items-start xl:flex-row">
                             <h2 className="font-light tracking-widest leading-12 text-white">ARMAND</h2>
@@ -19,11 +19,11 @@ function Banner() {
                         </div>
                         <div className="line hidden w-12 h-[.4px] bg-white md:block"></div>
 
-                        <p className="date text-[18px] tracking-wider text-white md:text-[22px]">JUNE 20, 2026</p>
+                        <p className="date text-[18px] tracking-widest text-white md:text-[22px]">JUNE 20, 2026</p>
                     </div>
                     
                     <div className="scroll flex flex-col items-center gap-2.5 pb-7 md:hidden">
-                        <h2 className="uppercase text-[14px] tracking-wider text-white">Scroll Down</h2>
+                        <h2 className="uppercase text-[14px] tracking-widest text-white">Scroll Down</h2>
                         <img src="./src/assets/down-chevron.png" className="w-7" alt="Scroll Down" />
                     </div>
 
