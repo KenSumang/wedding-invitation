@@ -51,11 +51,11 @@ function Header() {
                             </div>
                         </a>
 
-                        <ul className={`header-nav-links h-full flex gap-1 hidden ml-auto md:flex text-[11px] 2xl:gap-5 uppercase tracking-widest ${
+                        <ul className={`header-nav-links h-full flex gap-1 hidden ml-auto md:flex text-[11px] 2xl:gap-5 uppercase tracking-widest -mr-3 ${
                                 isScrolled ? "text-black" : "text-white"
                             }`}>
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Home</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="#banner">Home</a>
                             </li>
 
                             <li className="h-full flex items-center">
