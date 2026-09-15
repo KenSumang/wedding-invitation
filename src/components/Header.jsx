@@ -55,35 +55,35 @@ function Header() {
                                 isScrolled ? "text-black" : "text-white"
                             }`}>
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="#banner">Home</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="#banner?">Home</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Our Story</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Our Story</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Venue</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Venue</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Dress Code</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Dress Code</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Schedule</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Schedule</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">FAQ</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">FAQ</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">Gifts</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Gifts</a>
                             </li>
 
                             <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3" href="">RSVP</a>
+                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">RSVP</a>
                             </li>
                         </ul>
 
