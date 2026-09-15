@@ -13,7 +13,7 @@ function MainPage() {
       <Invitation />
       <Details />
       <ScheduleOfEvents />
-      <CountdownTimer />
+      {/* <CountdownTimer /> */}
     </>
   );
 }
