@@ -1,4 +1,8 @@
-import InvitationBanner from '../assets/invitation_banner.avif'
+import InvitationBanner from '../assets/invitation_banner.avif';
+
+import CalendarIcon from '../assets/calendar.svg';
+import ClockIcon from '../assets/clock.svg';
+import MapPinIcon from '../assets/map-pin.svg';
 
 function Invitation() {
     return (
@@ -12,7 +16,7 @@ function Invitation() {
                             <div className="details-a flex flex-col items-center mx-auto gap-8 mb-10 md:h-full md:justify-between md:items-start md:mx-0">
                                 <p className="uppercase text-[14px]">You are invited</p>
 
-                                <div className="line hidden w-12 h-[.5px] bg-black md:block md:ml-1 xl:w-16"></div>
+                                <div className="line hidden w-12 h-[.5px] bg-black md:block md:ml-1"></div>
 
                                 <h2 className="uppercase text-center text-[22px] max-w-65 md:text-start md:text-[24px] lg:text-[28px] lg:max-w-1/2">We invite you to witness our matrimony</h2>
 
@@ -22,29 +26,32 @@ function Invitation() {
                             </div>
 
                             <div className="details-b mx-auto flex flex-wrap sm:flex-nowrap w-full">
-                                <div className="date-time flex mx-auto h-fit justify-between w-full  sm:flex-3">
-                                    <div className="date flex-1 flex justify-center items-center">
-                                        <div className="day-and-time">
-                                            <p className="uppercase text-[14px] max-w-34 text-center leading-7 h-fit md:hidden">January 15<br/> 2027</p>
-                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-7 h-fit md:block">January 15, 2027</p>
-                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-7 h-fit md:block">Saturday</p>
+                                <div className="date-time flex mx-auto h-fit justify-between w-full sm:flex-3 md:flex-1">
+                                    <div className="date flex-1 flex justify-center items-center md:justify-between">
+                                        <img src={CalendarIcon} alt="map pin" className="hidden md:block w-5" />
+                                        <div className="day-and-time md:mr-auto md:ml-[calc(20%-26px)] md:pl-2">
+                                            <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit md:hidden">January 15<br/> 2027</p>
+                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-5 h-fit md:block md:text-start">January 15, 2027</p>
+                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-5 h-fit md:block md:text-start">Saturday</p>
                                         </div>
                                     </div>
 
-                                    <div className="line w-[.5px] h-14 bg-black xl:h-16"></div>
+                                    <div className="line w-[.5px] h-12 bg-black"></div>
 
                                     <div className="day-time flex-1 flex justify-center items-center">
-                                        <div className="day-and-time">
-                                            <p className="uppercase text-[14px] max-w-34 text-center leading-7 h-fit">4:00 PM</p>
-                                            <p className="uppercase text-[14px] max-w-34 text-center leading-7 h-fit md:hidden">Saturday</p>
+                                        <img src={ClockIcon} alt="map pin" className="hidden md:block w-5" /> 
+                                        <div className="day-and-time md:ml-[calc(20%-26px)] md:pl-2">
+                                            <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit md:text-start">4:00 PM</p>
+                                            <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit md:hidden">Saturday</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="line hidden w-[.4px] h-14 bg-black sm:block xl:h-16"></div>
+                                <div className="line hidden w-[.4px] h-12 bg-black sm:block"></div>
 
-                                <div className="location flex justify-center mt-12 mx-auto sm:mt-0 sm:flex-2">
-                                    <p className="uppercase text-center text-[14px] max-w-68 xs:my-auto">
+                                <div className="location flex justify-center mt-12 mx-auto sm:mt-0 sm:flex-2 md:flex-1">
+                                    <img src={MapPinIcon} alt="map pin" className="hidden md:block w-6" />
+                                    <p className="uppercase text-center text-[14px] max-w-68 xs:my-auto md:text-start md:ml-[calc(10%-26px)] md:pl-2">
                                         San Juan Nepomuceno Church San Juan, Batangas
                                     </p>
                                 </div>
