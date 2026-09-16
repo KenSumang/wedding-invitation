@@ -2,7 +2,7 @@ function Banner() {
     return (
         <section
             id="banner"
-            className={`banner w-full h-svh bg-[url('./src/assets/A&E_banner_sm.avif')] md:bg-[url('./src/assets/A&E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%] sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%] transition-all duration-300`}>
+            className={`banner w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%] sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%] transition-all duration-300`}>
             
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-black z-0"></div>
             <div className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
