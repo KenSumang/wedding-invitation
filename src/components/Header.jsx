@@ -88,13 +88,13 @@ function Header() {
                         </ul>
 
                         <div className="header-hamburger grid grid-cols-1 gap-1.5 justify-items-center md:hidden py-3 cursor-pointer">
-                            <div className={`w-[26px] h-0.5 transition duration-300 ${
+                            <div className={`w-[26px] h-0.5 transition duration-300 rounded-full ${
                                 isScrolled ? "bg-black" : "bg-white"
                             }`}></div>
-                            <div className={`w-[26px] h-0.5 transition duration-300 ${
+                            <div className={`w-[26px] h-0.5 transition duration-300 rounded-full ${
                                 isScrolled ? "bg-black" : "bg-white"
                             }`}></div>
-                            <div className={`w-[26px] h-0.5 transition duration-300 ${
+                            <div className={`w-[26px] h-0.5 transition duration-300 rounded-full ${
                                 isScrolled ? "bg-black" : "bg-white"
                             }`}></div>
                         </div>
