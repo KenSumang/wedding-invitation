@@ -5,6 +5,7 @@ import CountdownTimer from '../components/CountdownTimer';
 import { ScheduleOfEvents } from '../components/ScheduleOfEvents';
 import FAQ from '../components/Faq';
 import RSVP from '../components/Rsvp';
+import Timeline from '../components/Timeline';
 
 function MainPage() {
   return (
@@ -16,6 +17,7 @@ function MainPage() {
       <FAQ/>
       <RSVP/>
       <CountdownTimer />
+      <Timeline/>
     </>
   );
 }
