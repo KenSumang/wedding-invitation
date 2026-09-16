@@ -16,7 +16,7 @@ function Invitation() {
                             <div className="details-a flex flex-col items-center mx-auto gap-8 mb-10 md:h-full md:justify-between md:items-start md:mx-0">
                                 <p className="uppercase text-[14px]">You are invited</p>
 
-                                <div className="line hidden w-12 h-[.5px] bg-black md:block md:ml-1 xl:w-16"></div>
+                                <div className="line hidden w-12 h-[.5px] bg-black md:block md:ml-1"></div>
 
                                 <h2 className="uppercase text-center text-[22px] max-w-65 md:text-start md:text-[24px] lg:text-[28px] lg:max-w-1/2">We invite you to witness our matrimony</h2>
 
@@ -36,7 +36,7 @@ function Invitation() {
                                         </div>
                                     </div>
 
-                                    <div className="line w-[.5px] h-14 bg-black xl:h-16"></div>
+                                    <div className="line w-[.5px] h-12 bg-black"></div>
 
                                     <div className="day-time flex-1 flex justify-center items-center">
                                         <img src={ClockIcon} alt="map pin" className="hidden md:block w-5" /> 
@@ -47,7 +47,7 @@ function Invitation() {
                                     </div>
                                 </div>
 
-                                <div className="line hidden w-[.4px] h-14 bg-black sm:block xl:h-16"></div>
+                                <div className="line hidden w-[.4px] h-12 bg-black sm:block"></div>
 
                                 <div className="location flex justify-center mt-12 mx-auto sm:mt-0 sm:flex-2 md:flex-1">
                                     <img src={MapPinIcon} alt="map pin" className="hidden md:block w-6" />
