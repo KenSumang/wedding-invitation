@@ -6,5 +6,7 @@
 
   --font-weight-ultra-thick: 1000;
   --font-weight-demi: 650;
-  --font-weight-semibold: 520;
+  --font-weight-semibold: 580;
+
+  --breakpoint-xs: 550px;
 }
