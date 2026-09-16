@@ -27,21 +27,21 @@ function Invitation() {
 
                             <div className="details-b mx-auto flex flex-wrap sm:flex-nowrap w-full">
                                 <div className="date-time flex mx-auto h-fit justify-between w-full sm:flex-3 md:flex-1">
-                                    <div className="date flex-1 flex justify-center items-center md:justify-between">
+                                    <div className="date flex-1 flex flex-col gap-3 justify-start items-center lg:justify-center lg:flex-row lg:gap-0 md:justify-between">
                                         <img src={CalendarIcon} alt="map pin" className="hidden md:block w-5" />
                                         <div className="day-and-time md:mr-auto md:ml-[calc(20%-26px)] md:pl-2">
                                             <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit md:hidden">January 15<br/> 2027</p>
-                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-5 h-fit md:block md:text-start">January 15, 2027</p>
-                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-5 h-fit md:block md:text-start">Saturday</p>
+                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-5 h-fit md:block lg:text-start">January 15, 2027</p>
+                                            <p className="uppercase hidden text-[14px] max-w-34 text-center leading-5 h-fit md:block lg:text-start">Saturday</p>
                                         </div>
                                     </div>
 
                                     <div className="line w-[.5px] h-12 bg-black"></div>
 
-                                    <div className="day-time flex-1 flex justify-center items-center">
+                                    <div className="day-time flex-1 flex flex-col gap-3 justify-start items-center lg:justify-center lg:flex-row lg:gap-0">
                                         <img src={ClockIcon} alt="map pin" className="hidden md:block w-5" /> 
                                         <div className="day-and-time md:ml-[calc(20%-26px)] md:pl-2">
-                                            <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit md:text-start">4:00 PM</p>
+                                            <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit lg:text-start">4:00 PM</p>
                                             <p className="uppercase text-[14px] max-w-34 text-center leading-5 h-fit md:hidden">Saturday</p>
                                         </div>
                                     </div>
@@ -49,9 +49,9 @@ function Invitation() {
 
                                 <div className="line hidden w-[.4px] h-12 bg-black sm:block"></div>
 
-                                <div className="location flex justify-center mt-12 mx-auto sm:mt-0 sm:flex-2 md:flex-1">
-                                    <img src={MapPinIcon} alt="map pin" className="hidden md:block w-6" />
-                                    <p className="uppercase text-center text-[14px] max-w-68 xs:my-auto md:text-start md:ml-[calc(10%-26px)] md:pl-2">
+                                <div className="location flex flex-col gap-3 justify-center mt-12 mx-auto sm:mt-0 sm:flex-2 md:flex-1 lg:flex-row lg:gap-0">
+                                    <img src={MapPinIcon} alt="map pin" className="hidden md:block w-6 mx-auto lg:mx-0" />
+                                    <p className="uppercase text-center text-[14px] max-w-68 xs:my-auto lg:text-start md:ml-[calc(10%-26px)] md:pl-2">
                                         San Juan Nepomuceno Church San Juan, Batangas
                                     </p>
                                 </div>
