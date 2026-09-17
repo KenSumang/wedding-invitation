@@ -7,6 +7,7 @@ import Rsvp from '../components/Rsvp';
 import Faq from '../components/Faq';
 import ScheduleOfEvents from '../components/ScheduleOfEvents';
 import DressCode from '../components/DressCode';
+import Venue from '../components/venue';
 
 function MainPage() {
   return (
@@ -19,6 +20,7 @@ function MainPage() {
       <Faq/>
       <Rsvp/>
       <ScheduleOfEvents />
+      <Venue />
       {/* <CountdownTimer /> */}
     </>
   );
