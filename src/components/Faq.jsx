@@ -51,7 +51,9 @@ export default function FAQ() {
   ];
 
   const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndex((currentIndex) =>
+      currentIndex === index ? null : index
+    );
   };
 
   useEffect(() => {
@@ -69,6 +71,7 @@ export default function FAQ() {
         ease: "power3.out",
       });
 
+      // Title animation
       gsap.from(titleRef.current, {
         scrollTrigger: {
           trigger: titleRef.current,
@@ -81,31 +84,31 @@ export default function FAQ() {
         ease: "power3.out",
       });
 
-      // Each FAQ item gets its OWN scroll trigger
-      const faqItems = faqListRef.current.children;
+      // FAQ item animations
+      const faqItems = faqListRef.current?.children;
 
-      Array.from(faqItems).forEach((item) => {
-  gsap.from(item, {
-    y: 30,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out",
+      if (faqItems) {
+        Array.from(faqItems).forEach((item) => {
+          gsap.from(item, {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 90%",
+              toggleActions: "restart reverse restart reverse",
+            },
+          });
+        });
+      }
 
-    scrollTrigger: {
-      trigger: item,
-      start: "top 90%",
-      end: "bottom 10%",
-      toggleActions: "restart reverse restart reverse",
-    },
-  });
-});
-
-      // Bottom message
+      // Bottom message animation
       gsap.from(bottomRef.current, {
         scrollTrigger: {
           trigger: bottomRef.current,
           start: "top 90%",
-          once: true,
+          toggleActions: "restart reverse restart reverse",
         },
         y: 20,
         opacity: 0,
@@ -120,19 +123,18 @@ export default function FAQ() {
   return (
     <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20">
       <div className="mx-auto w-full max-w-[760px]">
-
         {/* Heading */}
         <div className="mb-8 sm:mb-10">
           <p
             ref={headingRef}
-            className="mb-2 font-['Tenor_Sans'] text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs"
+            className="mb-2 text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs"
           >
             Frequently Asked
           </p>
 
           <h2
             ref={titleRef}
-            className="font-['Tenor_Sans'] text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl"
+            className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl"
           >
             Questions
           </h2>
@@ -142,6 +144,7 @@ export default function FAQ() {
         <div ref={faqListRef} className="w-full">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
+            const answerId = `faq-answer-${index}`;
 
             return (
               <div
@@ -151,14 +154,16 @@ export default function FAQ() {
                 <button
                   type="button"
                   onClick={() => toggleFAQ(index)}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-5 text-left sm:px-5 sm:py-6"
                   aria-expanded={isOpen}
+                  aria-controls={answerId}
+                  className="flex w-full items-center justify-between gap-4 px-4 py-5 text-left sm:px-5 sm:py-6"
                 >
-                  <span className="font-['Tenor_Sans'] text-sm leading-relaxed text-[#303030] sm:text-[15px]">
+                  <span className="text-base leading-relaxed text-[#303030]">
                     {faq.question}
                   </span>
 
                   <span
+                    aria-hidden="true"
                     className={`flex h-5 w-5 shrink-0 items-center justify-center text-lg font-light text-[#8A8A8A] transition-transform duration-300 ${
                       isOpen ? "rotate-45" : "rotate-0"
                     }`}
@@ -169,6 +174,7 @@ export default function FAQ() {
 
                 {/* Answer */}
                 <div
+                  id={answerId}
                   className={`grid transition-all duration-300 ease-in-out ${
                     isOpen
                       ? "grid-rows-[1fr] opacity-100"
@@ -176,7 +182,7 @@ export default function FAQ() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-4 pb-5 pr-12 font-['Tenor_Sans'] text-xs leading-6 text-[#777777] sm:px-5 sm:pb-6 sm:pr-16 sm:text-sm">
+                    <p className="px-4 pb-5 pr-12 text-sm leading-6 text-[#777777] sm:px-5 sm:pb-6 sm:pr-16 sm:text-base">
                       {faq.answer}
                     </p>
                   </div>
@@ -191,7 +197,7 @@ export default function FAQ() {
           ref={bottomRef}
           className="mt-12 text-center sm:mt-14"
         >
-          <p className="font-['Tenor_Sans'] text-xs leading-6 tracking-wide text-[#8A8A8A] sm:text-sm">
+          <p className="text-sm leading-6 tracking-wide text-[#8A8A8A] sm:text-base">
             If you have any other questions,
             <br />
             feel free to reach out to us.
@@ -199,7 +205,6 @@ export default function FAQ() {
 
           <div className="mx-auto mt-8 h-px w-9 bg-[#BDBDBD]" />
         </div>
-
       </div>
     </section>
   );

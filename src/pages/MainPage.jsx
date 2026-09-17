@@ -2,9 +2,8 @@ import Header from '../components/Header';
 import Banner from '../components/Banner';
 import Invitation from '../components/Invitation';
 import CountdownTimer from '../components/CountdownTimer';
-import FAQ from '../components/Faq';
-import RSVP from '../components/Rsvp';
-import Timeline from '../components/Timeline';
+import { ScheduleOfEvents } from '../components/ScheduleOfEvents';
+import DressCode from '../components/DressCode';
 
 function MainPage() {
   return (
@@ -12,10 +11,10 @@ function MainPage() {
       <Header />
       <Banner />
       <Invitation />
-      <FAQ/>
-      <RSVP/>
-      <CountdownTimer />
-      <Timeline/>
+      <DressCode />
+      <Details />
+      <ScheduleOfEvents />
+      {/* <CountdownTimer /> */}
     </>
   );
 }

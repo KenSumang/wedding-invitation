@@ -1,10 +1,13 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function RSVP() {
+  const navigate = useNavigate();
+
   const sectionRef = useRef(null);
 
   const headingRef = useRef(null);
@@ -19,7 +22,7 @@ export default function RSVP() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Put everything in its starting position
+      // Initial animation state
       gsap.set(
         [
           headingRef.current,
@@ -45,11 +48,10 @@ export default function RSVP() {
       // Main entrance timeline
       const tl = gsap.timeline({
         scrollTrigger: {
-  trigger: sectionRef.current,
-  start: "top 78%",
-  end: "bottom 20%",
-  toggleActions: "restart reverse restart reverse",
-},
+          trigger: sectionRef.current,
+          start: "top 78%",
+          toggleActions: "restart reverse restart reverse",
+        },
       });
 
       tl.to(headingRef.current, {
@@ -135,6 +137,7 @@ export default function RSVP() {
             y: 0,
             duration: 0.75,
             ease: "power2.out",
+            toggleActions: "restart reverse restart reverse",
           },
           "-=0.5"
         );
@@ -144,20 +147,19 @@ export default function RSVP() {
   }, []);
 
   const handleRSVP = () => {
-    window.location.href = "/rsvp";
+    navigate("/rsvp");
   };
 
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#F8F8F6] px-6 py-16 sm:px-8 sm:py-20"
+      className="w-full px-6 py-16 sm:px-8 sm:py-20"
     >
       <div className="mx-auto flex w-full max-w-[620px] flex-col items-center text-center">
-
         {/* KINDLY */}
         <p
           ref={headingRef}
-          className="font-['Tenor_Sans'] text-[11px] uppercase tracking-[0.3em] text-[#666666] sm:text-xs"
+          className="text-[11px] uppercase tracking-[0.3em] text-[#666666] sm:text-xs"
         >
           Kindly
         </p>
@@ -165,7 +167,7 @@ export default function RSVP() {
         {/* RSVP */}
         <h2
           ref={titleRef}
-          className="mt-2 font-['Tenor_Sans'] text-3xl uppercase tracking-[0.22em] text-[#202020] sm:text-4xl"
+          className="mt-2 text-3xl uppercase tracking-[0.22em] text-[#202020] sm:text-4xl"
         >
           RSVP
         </h2>
@@ -173,7 +175,7 @@ export default function RSVP() {
         {/* MESSAGE */}
         <p
           ref={messageRef}
-          className="mt-8 max-w-[360px] font-['Tenor_Sans'] text-sm leading-7 tracking-wide text-[#858585] sm:mt-10 sm:text-[15px]"
+          className="mt-8 max-w-[360px] text-base leading-7 tracking-wide text-[#858585] sm:mt-10"
         >
           Please let us know if you can
           <br />
@@ -183,7 +185,7 @@ export default function RSVP() {
         {/* DEADLINE */}
         <p
           ref={deadlineRef}
-          className="mt-8 font-['Tenor_Sans'] text-sm tracking-wide text-[#777777] sm:mt-10"
+          className="mt-8 text-base tracking-wide text-[#777777] sm:mt-10"
         >
           Kindly reply by{" "}
           <span className="text-[#444444]">
@@ -207,7 +209,6 @@ export default function RSVP() {
             justify-between
             bg-[#1F1F1F]
             px-5
-            font-['Tenor_Sans']
             text-[11px]
             uppercase
             tracking-[0.2em]
@@ -229,10 +230,10 @@ export default function RSVP() {
 
           {/* Arrow */}
           <span
+            aria-hidden="true"
             className="
               w-5
               text-right
-              font-['Tenor_Sans']
               text-[18px]
               font-light
               leading-none
@@ -255,26 +256,25 @@ export default function RSVP() {
         <div className="mt-9 sm:mt-10">
           <p
             ref={thankYouRef}
-            className="font-['Tenor_Sans'] text-[11px] uppercase tracking-[0.3em] text-[#777777] sm:text-xs"
+            className="text-[13px] uppercase tracking-[0.3em] text-[#777777] sm:text-xs"
           >
             Thank You
           </p>
 
           <p
             ref={namesRef}
-            className="mt-5 font-['Tenor_Sans'] text-[12px] uppercase tracking-[0.22em] text-[#333333] sm:text-sm"
+            className="mt-5 text-[13px] uppercase tracking-[0.22em] text-[#333333] sm:text-sm"
           >
             Armand & Edelyn
           </p>
 
           <p
             ref={dateRef}
-            className="mt-2 font-['Tenor_Sans'] text-[10px] tracking-[0.2em] text-[#777777] sm:text-xs"
+            className="mt-2 text-[13px] tracking-[0.3em] text-[#777777] sm:text-xs"
           >
             01.15.2027
           </p>
         </div>
-
       </div>
     </section>
   );
