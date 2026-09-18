@@ -14,4 +14,14 @@
     --text-banner-heading: clamp(44px, calc(34.31px + 2.58vw), 74px);
     --text-banner-ampersand: clamp(38px, calc(29.60px + 2.24vw), 64px);
     --text-base: 16px;
+
+    --font-weight-ultra-thick: 1000;
+    --font-weight-demi: 650;
+    --font-weight-semibold: 580;
+
+    --breakpoint-xs: 550px;
   }
+
+.close-button {
+  width: 12px;
+}
