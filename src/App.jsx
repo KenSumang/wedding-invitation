@@ -1,35 +1,27 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
 import InvitationPage from "./pages/MainPage";
 import PageTransition from "./components/PageTransition";
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target); // Stop watching once visible
-    }
-  });
-}, { threshold: 0.1 });
+function AppRoutes() {
+  const location = useLocation();
 
-document.querySelectorAll('.slide-up').forEach(el => {
-  observer.observe(el);
-});
-
-document.querySelectorAll('.slide-up-delay').forEach(el => {
-  observer.observe(el);
-});
+  return (
+    <PageTransition key={location.pathname}>
+      <Routes location={location}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/app" element={<InvitationPage />} />
+      </Routes>
+    </PageTransition>
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <PageTransition />
-
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/app" element={<InvitationPage />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

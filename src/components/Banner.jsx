@@ -1,3 +1,5 @@
+import CountdownTimer from "./CountdownTimer";
+
 function Banner() {
     return (
         <section
@@ -21,6 +23,11 @@ function Banner() {
                         <div className="line hidden w-12 h-[.4px] bg-white md:block xl:w-16"></div>
 
                         <p className="date text-[16px] tracking-widest text-white sm:text-[18px] md:text-[20px] 2xl:text-[22px]">JANUARY 15, 2027</p>
+
+                        <div className="countdown mt-3 sm:mt-5 md:mt-6 w-full flex justify-center md:justify-start">
+                            <CountdownTimer />
+                        </div>
+
                     </div>
                     
                     <div className="scroll flex flex-col items-center gap-2.5 pb-7 md:hidden">

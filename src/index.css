@@ -1,14 +1,27 @@
-@import "tailwindcss";
+  @import "tailwindcss";
 
+  @theme {
+    /* This creates the utility class: font-montserrat */
+    --default-font-family: "Tenor Sans", sans-serif;
 
-@theme {
-  /* This creates the utility class: font-montserrat */
-  --default-font-family: "Tenor Sans", sans-serif;
+    --font-weight-ultra-thick: 1000;
+    --font-weight-demi: 650;
+    --font-weight-semibold: 580;
+    --breakpoint-xs: 550px;
 
+    --text-subtitle: clamp(13px, calc(11.39px + 0.43vw), 18px);
+    --text-date: clamp(16px, calc(14.06px + 0.52vw), 22px);
+    --text-banner-heading: clamp(44px, calc(34.31px + 2.58vw), 74px);
+    --text-banner-ampersand: clamp(38px, calc(29.60px + 2.24vw), 64px);
+    --text-base: 16px;
 
-  --font-weight-ultra-thick: 1000;
-  --font-weight-demi: 650;
-  --font-weight-semibold: 580;
+    --font-weight-ultra-thick: 1000;
+    --font-weight-demi: 650;
+    --font-weight-semibold: 580;
 
-  --breakpoint-xs: 550px;
+    --breakpoint-xs: 550px;
+  }
+
+.close-button {
+  width: 12px;
 }

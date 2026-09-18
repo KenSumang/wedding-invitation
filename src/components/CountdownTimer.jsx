@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-const MS_PER_MINUTE = 60_000;
+const MS_PER_SECOND = 1000;
+const MS_PER_MINUTE = 60 * MS_PER_SECOND;
 const MS_PER_HOUR = 60 * MS_PER_MINUTE;
 const MS_PER_DAY = 24 * MS_PER_HOUR;
 const MS_PER_WEEK = 7 * MS_PER_DAY;
@@ -11,13 +12,7 @@ function getTimeRemaining(targetDate) {
   const total = target - now;
 
   if (total <= 0) {
-    return {
-      total: 0,
-      weeks: 0,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-    };
+    return { total: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
 
   return {
@@ -26,12 +21,13 @@ function getTimeRemaining(targetDate) {
     days: Math.floor((total % MS_PER_WEEK) / MS_PER_DAY),
     hours: Math.floor((total % MS_PER_DAY) / MS_PER_HOUR),
     minutes: Math.floor((total % MS_PER_HOUR) / MS_PER_MINUTE),
+    seconds: Math.floor((total % MS_PER_MINUTE) / MS_PER_SECOND),
   };
 }
 
 export default function CountdownTimer({
   // Philippine Time (UTC+8)
-  targetDate = "2027-01-27T00:00:00+08:00",
+  targetDate = "2027-01-15T12:30:00+08:00",
 }) {
   const [tick, setTick] = useState(0);
 
@@ -48,8 +44,7 @@ export default function CountdownTimer({
         return;
       }
 
-      const remainder = total % MS_PER_MINUTE;
-
+      const remainder = total % MS_PER_SECOND;
       const delay = remainder + 10;
 
       timeoutId = setTimeout(() => {
@@ -66,71 +61,77 @@ export default function CountdownTimer({
   }, [targetDate]);
 
   void tick;
+
   const timeLeft = getTimeRemaining(targetDate);
 
   const units = [
-    {
-      label: "weeks",
-      value: timeLeft.weeks,
-    },
-    {
-      label: "days",
-      value: timeLeft.days,
-    },
-    {
-      label: "hours",
-      value: timeLeft.hours,
-    },
-    {
-      label: "minutes",
-      value: timeLeft.minutes,
-    },
+    { label: "weeks", value: timeLeft.weeks },
+    { label: "days", value: timeLeft.days },
+    { label: "hours", value: timeLeft.hours },
+    { label: "minutes", value: timeLeft.minutes },
+    { label: "seconds", value: timeLeft.seconds },
   ];
 
-  const formattedTarget = new Date(targetDate).toLocaleDateString(
-    "en-PH",
-    {
-      timeZone: "Asia/Manila",
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
-
   return (
-    <div className="min-h-[260px] bg-[#12141C] text-[#EDE8DD] flex flex-col items-center justify-center px-6 py-12 font-serif">
+    <div className="w-full flex flex-col items-center md:items-start font-serif">
       {timeLeft.total <= 0 ? (
-        <p className="text-3xl m-0">
+        <p className="text-lg sm:text-xl md:text-2xl text-center md:text-left text-white m-0">
           The moment has arrived.
         </p>
       ) : (
-        <>
-          <div className="flex items-stretch">
+        <div className="flex flex-col items-center md:items-start">
+          <div className="flex w-full max-w-md md:max-w-none items-stretch justify-center md:justify-start">
             {units.map((unit, i) => (
               <div
                 key={unit.label}
-                className={`flex flex-col items-center px-7 ${
+                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center pr-1.5 sm:pr-3 md:pr-4 2xl:pr-5 ${
                   i === 0
-                    ? ""
-                    : "border-l border-white/10"
+                    ? "pl-0"
+                    : "pl-1.5 sm:pl-3 md:pl-4 2xl:pl-5 border-l border-white/20"
                 }`}
               >
-                <span className="text-5xl leading-none font-normal text-[#D9A441] tabular-nums">
+                {/* Number */}
+                <span
+                  className="
+                    text-lg
+                    sm:text-2xl
+                    md:text-3xl
+                    2xl:text-4xl
+                    leading-none
+                    font-normal
+                    text-[#D9A441]
+                    tabular-nums
+                    font-['Tenor_Sans']
+                  "
+                >
                   {String(unit.value).padStart(2, "0")}
                 </span>
 
-                <span className="mt-2.5 text-xs tracking-wide font-sans text-[#EDE8DD]/60">
+                {/* Label */}
+                <span
+                  className="
+                    mt-1.5
+                    sm:mt-2
+                    text-[8px]
+                    sm:text-[10px]
+                    md:text-[11px]
+                    tracking-widest
+                    uppercase
+                    font-sans
+                    text-white/70
+                  "
+                >
                   {unit.label}
                 </span>
               </div>
             ))}
           </div>
 
-          <p className="mt-10 text-sm font-sans text-[#EDE8DD]/50">
+          {/* Subtitle */}
+          <p className="mt-4 sm:mt-5 md:mt-6 w-full text-center text-sm sm:text-base md:text-lg 2xl:text-xl font-sans text-white/60">
             until we say 'I do'
           </p>
-        </>
+        </div>
       )}
     </div>
   );
