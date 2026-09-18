@@ -7,6 +7,8 @@ import Rsvp from '../components/Rsvp';
 import Faq from '../components/Faq';
 import DressCode from '../components/DressCode';
 import CountdownTimer from '../components/CountdownTimer';
+import VenueChurch from '../components/VenueChurch';
+import VenueReception from '../components/VenueReception';
 
 function MainPage() {
   return (
@@ -17,6 +19,9 @@ function MainPage() {
       <Details/>
       <DressCode />
       <Faq/>
+      <ScheduleOfEvents />
+      <VenueChurch />
+      <VenueReception />
       <Rsvp/>
     </>
   );
