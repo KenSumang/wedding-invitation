@@ -121,7 +121,7 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20 bg-red-200">
+    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20">
       <div className="mx-auto w-full max-w-[760px]">
         {/* Heading */}
         <div className="mb-8 sm:mb-10">

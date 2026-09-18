@@ -2,7 +2,7 @@ import DressCodeBanner from "../assets/dress_code_banner.avif"
 
 function DressCode() {
     return(
-        <section id="dress-code" className="dress-code w-full h-lvh bg-green-200">
+        <section id="dress-code" className="dress-code w-full h-lvh">
             <div className="container max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
                 <div className="wrapper w-full h-full flex">
                     <div className="contents w-full h-full flex flex-col mt-20">
