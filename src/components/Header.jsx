@@ -1,7 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import CloseButtonIcon from '../assets/close.svg';
+
+import NavData from './NavData';
+
+function NavigationData({ navData }) {
+    return (
+        <>
+            {navData.map((data) => (
+                // <li 
+                //     key={data.id}
+                //     className="h-full flex items-center">
+                //     <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href={data.link}>{data.label}</a>
+                // </li>
+                <>
+                    <li 
+                        key={data.id}
+                        className="group flex md:h-full items-center"
+                    >
+                        <a 
+                            className="flex px-5 py-5 w-full md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap hover:bg-black/50 hover:backdrop-blur-sm group-hover:text-white group-active"
+                            href={data.link}
+                        >{data.label}</a>
+                    </li>
+                </>
+            ))}
+        </>
+    );
+}
 
 function Header() {
-    const [isScrolled, setIsScrolled] = useState(false)
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+
+    const handleMenuButton = () => {
+        setIsSideBarOpen(!isSideBarOpen);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -54,40 +87,39 @@ function Header() {
                         <ul className={`header-nav-links h-full flex gap-1 hidden ml-auto md:flex text-[11px] 2xl:gap-5 uppercase tracking-widest -mr-3 ${
                                 isScrolled ? "text-black" : "text-white"
                             }`}>
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="#banner?">Home</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Our Story</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Venue</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Dress Code</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Schedule</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">FAQ</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">Gifts</a>
-                            </li>
-
-                            <li className="h-full flex items-center">
-                                <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href="">RSVP</a>
-                            </li>
+                            <NavigationData navData={NavData} />
                         </ul>
 
-                        <div className="header-hamburger grid grid-cols-1 gap-1.5 justify-items-center md:hidden py-3 cursor-pointer">
+                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-350 bg-white/30 backdrop-blur-lg ${
+                                isSideBarOpen ? "right-0" : "-right-1/2"
+                            }`}>
+                            
+                            <div className="logo-close flex justify-between">
+                                <a href="#">
+                                    <div className="header-logo flex items-center mx-5 my-2 mt-5.5 gap-2 order-first transition duration-300 text-black">
+                                        <h2 className="text-[20px]">A</h2>
+                                        <p className="text-[20px]">&</p>
+                                        <h2 className="text-[20px]">E</h2>
+                                    </div>
+                                </a>
+                                <img
+                                    src={CloseButtonIcon}
+                                    alt="close"
+                                    className="close-button mr-3 mb-4"
+                                    onClick={handleMenuButton}
+                                />
+                            </div>
+
+                            <ul className="header-side-nav-links h-full flex flex-col text-[11px] uppercase tracking-widest">
+                                <NavigationData navData={NavData} />
+                            </ul>
+                            <div className="line w-full h-[1px] bg-black mx-7"></div>
+                        </div>
+
+                        <div
+                            className="header-hamburger grid grid-cols-1 gap-1.5 justify-items-center md:hidden py-3 cursor-pointer"
+                            onClick={handleMenuButton}
+                        >
                             <div className={`w-[26px] h-0.5 transition duration-300 rounded-full ${
                                 isScrolled ? "bg-black" : "bg-white"
                             }`}></div>
