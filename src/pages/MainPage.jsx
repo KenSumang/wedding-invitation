@@ -15,7 +15,7 @@ function MainPage() {
       <Header />
       <Banner />
       <Invitation />
-      <Details/>
+      {/* <Details/> */}
       <DressCode />
       <Faq/>
       <Rsvp/>
