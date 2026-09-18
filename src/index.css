@@ -12,3 +12,7 @@
 
   --breakpoint-xs: 550px;
 }
+
+.close-button {
+  width: 12px;
+}
