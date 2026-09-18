@@ -121,89 +121,91 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20">
-      <div className="mx-auto w-full max-w-[760px]">
-        {/* Heading */}
-        <div className="mb-8 sm:mb-10">
-          <p
-            ref={headingRef}
-            className="mb-2 text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs"
-          >
-            Frequently Asked
-          </p>
+    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <div className="mx-auto w-full max-w-[760px] lg:max-w-[1100px]">
+        <div className="lg:flex lg:items-start lg:gap-16">
+          {/* Column 1: Heading */}
+          <div className="mb-8 sm:mb-10 lg:mb-0 lg:flex lg:w-[320px] lg:shrink-0 lg:flex-col lg:items-center lg:justify-center lg:self-stretch lg:text-center">
+            <p
+              ref={headingRef}
+              className="mb-2 text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs"
+            >
+              Frequently Asked
+            </p>
 
-          <h2
-            ref={titleRef}
-            className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl"
-          >
-            Questions
-          </h2>
-        </div>
+            <h2
+              ref={titleRef}
+              className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl"
+            >
+              Questions
+            </h2>
+          </div>
 
-        {/* FAQ List */}
-        <div ref={faqListRef} className="w-full">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            const answerId = `faq-answer-${index}`;
+          {/* Column 2: FAQ List + Bottom Message */}
+          <div className="lg:flex-1">
+            {/* FAQ List */}
+            <div ref={faqListRef} className="w-full">
+              {faqs.map((faq, index) => {
+                const isOpen = openIndex === index;
+                const answerId = `faq-answer-${index}`;
 
-            return (
-              <div
-                key={faq.question}
-                className="border-b border-[#E7E7E3] bg-white first:border-t"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFAQ(index)}
-                  aria-expanded={isOpen}
-                  aria-controls={answerId}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-5 text-left sm:px-5 sm:py-6"
-                >
-                  <span className="text-base leading-relaxed text-[#303030]">
-                    {faq.question}
-                  </span>
-
-                  <span
-                    aria-hidden="true"
-                    className={`flex h-5 w-5 shrink-0 items-center justify-center text-lg font-light text-[#8A8A8A] transition-transform duration-300 ${
-                      isOpen ? "rotate-45" : "rotate-0"
-                    }`}
+                return (
+                  <div
+                    key={faq.question}
+                    className="border-b border-[#E7E7E3] bg-white first:border-t"
                   >
-                    +
-                  </span>
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleFAQ(index)}
+                      aria-expanded={isOpen}
+                      aria-controls={answerId}
+                      className="flex w-full items-center justify-between gap-4 px-4 py-5 text-left sm:px-5 sm:py-6"
+                    >
+                      <span className="text-base leading-relaxed text-[#303030]">
+                        {faq.question}
+                      </span>
 
-                {/* Answer */}
-                <div
-                  id={answerId}
-                  className={`grid transition-all duration-300 ease-in-out ${
-                    isOpen
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <p className="px-4 pb-5 pr-12 text-sm leading-6 text-[#777777] sm:px-5 sm:pb-6 sm:pr-16 sm:text-base">
-                      {faq.answer}
-                    </p>
+                      <span
+                        aria-hidden="true"
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center text-lg font-light text-[#8A8A8A] transition-transform duration-300 ${
+                          isOpen ? "rotate-45" : "rotate-0"
+                        }`}
+                      >
+                        +
+                      </span>
+                    </button>
+
+                    {/* Answer */}
+                    <div
+                      id={answerId}
+                      className={`grid transition-all duration-300 ease-in-out ${
+                        isOpen
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="px-4 pb-5 pr-12 text-sm leading-6 text-[#777777] sm:px-5 sm:pb-6 sm:pr-16 sm:text-base">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
 
-        {/* Bottom Message */}
-        <div
-          ref={bottomRef}
-          className="mt-12 text-center sm:mt-14"
-        >
-          <p className="text-sm leading-6 tracking-wide text-[#8A8A8A] sm:text-base">
-            If you have any other questions,
-            <br />
-            feel free to reach out to us.
-          </p>
+            {/* Bottom Message */}
+            <div ref={bottomRef} className="mt-12 text-center sm:mt-14">
+              <p className="text-sm leading-6 tracking-wide text-[#8A8A8A] sm:text-base">
+                If you have any other questions,
+                <br />
+                feel free to reach out to us.
+              </p>
 
-          <div className="mx-auto mt-8 h-px w-9 bg-[#BDBDBD]" />
+              <div className="mx-auto mt-8 h-px w-9 bg-[#BDBDBD] lg:hidden" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

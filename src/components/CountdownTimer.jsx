@@ -12,14 +12,7 @@ function getTimeRemaining(targetDate) {
   const total = target - now;
 
   if (total <= 0) {
-    return {
-      total: 0,
-      weeks: 0,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    };
+    return { total: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
 
   return {
@@ -51,7 +44,6 @@ export default function CountdownTimer({
         return;
       }
 
-      // Update on the next full second
       const remainder = total % MS_PER_SECOND;
       const delay = remainder + 10;
 
@@ -73,51 +65,38 @@ export default function CountdownTimer({
   const timeLeft = getTimeRemaining(targetDate);
 
   const units = [
-    {
-      label: "weeks",
-      value: timeLeft.weeks,
-    },
-    {
-      label: "days",
-      value: timeLeft.days,
-    },
-    {
-      label: "hours",
-      value: timeLeft.hours,
-    },
-    {
-      label: "minutes",
-      value: timeLeft.minutes,
-    },
-    {
-      label: "seconds",
-      value: timeLeft.seconds,
-    },
+    { label: "weeks", value: timeLeft.weeks },
+    { label: "days", value: timeLeft.days },
+    { label: "hours", value: timeLeft.hours },
+    { label: "minutes", value: timeLeft.minutes },
+    { label: "seconds", value: timeLeft.seconds },
   ];
 
   return (
-    <div className="min-h-[260px] w-full bg-[#12141C] text-[#EDE8DD] flex flex-col items-center justify-center px-3 sm:px-6 py-10 sm:py-12 font-serif overflow-hidden">
+    <div className="w-full flex flex-col items-center md:items-start font-serif">
       {timeLeft.total <= 0 ? (
-        <p className="text-2xl sm:text-3xl text-center m-0">
+        <p className="text-lg sm:text-xl md:text-2xl text-center md:text-left text-white m-0">
           The moment has arrived.
         </p>
       ) : (
-        <>
-          {/* Countdown */}
-          <div className="flex w-full max-w-4xl items-stretch justify-center">
+        <div className="flex flex-col items-center md:items-start">
+          <div className="flex w-full max-w-md md:max-w-none items-stretch justify-center md:justify-start">
             {units.map((unit, i) => (
               <div
                 key={unit.label}
-                className={`flex flex-1 min-w-0 flex-col items-center px-1 sm:px-2 md:px-7 ${
-                  i === 0 ? "" : "border-l border-white/10"
+                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center pr-1.5 sm:pr-3 md:pr-4 2xl:pr-5 ${
+                  i === 0
+                    ? "pl-0"
+                    : "pl-1.5 sm:pl-3 md:pl-4 2xl:pl-5 border-l border-white/20"
                 }`}
               >
                 {/* Number */}
                 <span
                   className="
-                    text-2xl
-                    sm:text-4xl
-                    md:text-5xl
+                    text-lg
+                    sm:text-2xl
+                    md:text-3xl
+                    2xl:text-4xl
                     leading-none
                     font-normal
                     text-[#D9A441]
@@ -131,13 +110,15 @@ export default function CountdownTimer({
                 {/* Label */}
                 <span
                   className="
-                    mt-2
-                    sm:mt-2.5
+                    mt-1.5
+                    sm:mt-2
                     text-[8px]
-                    sm:text-xs
-                    tracking-wide
+                    sm:text-[10px]
+                    md:text-[11px]
+                    tracking-widest
+                    uppercase
                     font-sans
-                    text-[#EDE8DD]/60
+                    text-white/70
                   "
                 >
                   {unit.label}
@@ -147,10 +128,10 @@ export default function CountdownTimer({
           </div>
 
           {/* Subtitle */}
-          <p className="mt-8 sm:mt-10 text-xs sm:text-sm font-sans text-[#EDE8DD]/50 text-center">
+          <p className="mt-4 sm:mt-5 md:mt-6 w-full text-center text-sm sm:text-base md:text-lg 2xl:text-xl font-sans text-white/60">
             until we say 'I do'
           </p>
-        </>
+        </div>
       )}
     </div>
   );

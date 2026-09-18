@@ -6,6 +6,7 @@ import Faq from '../components/Faq';
 import { ScheduleOfEvents } from '../components/ScheduleOfEvents';
 import DressCode from '../components/DressCode';
 import Details from '../components/Details';
+import CountdownTimer from '../components/CountdownTimer';
 
 function MainPage() {
   return (
@@ -17,8 +18,6 @@ function MainPage() {
       <DressCode />
       <Faq/>
       <Rsvp/>
-      <ScheduleOfEvents />
-      {/* <CountdownTimer /> */}
     </>
   );
 }
