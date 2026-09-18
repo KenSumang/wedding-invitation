@@ -20,19 +20,20 @@ export default function venue() {
           <div className="mb-6 flex flex-col items-start">
             <span className="mb-5 block h-px w-12 bg-[#555]" />
 
-            <p className="m-0 font-sans text-[12px] font-normal tracking-[0.3em] text-[#444] md:text-sm md:tracking-[0.35em]">
+            <p className="m-0 text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs">
               VENUE
             </p>
+            
+            <h2
+              className="m-0 font-normal text-3xl leading-[1.45] tracking-[0.18em] text-[#202020] sm:text-[32px] md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em]"
+            >
+              EL JARDIN
+              <br />
+              DE ZAIDA
+            </h2>
           </div>
 
           {/* Title */}
-          <h2
-            className="m-0 font-sans font-normal text-[28px] leading-[1.45] tracking-[0.18em] text-[#1e2224] sm:text-[32px] md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em]"
-          >
-            EL JARDIN
-            <br />
-            DE ZAIDA
-          </h2>
 
           
 
@@ -90,7 +91,7 @@ export default function venue() {
 
           {/* View on Map Button */}
           <a
-            href="https://maps.google.com"
+            href="https://www.google.com/maps/place/El+Jardin+de+Zaida/@13.7708196,121.4108664,115m/data=!3m1!1e3!4m9!3m8!1s0x33bd3a57568dd317:0x43c752940f86f9b3!5m2!4m1!1i2!8m2!3d13.7708664!4d121.4111183!16s%2Fg%2F11c5b7m7sz?entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 flex h-[50px] w-full items-center justify-center gap-3 bg-[#202223] px-6 font-sans text-[10px] font-normal tracking-[0.3em] text-white transition duration-300 hover:bg-[#3b3d3e] md:mt-9 md:h-[52px] md:w-[235px] md:text-[11px]"

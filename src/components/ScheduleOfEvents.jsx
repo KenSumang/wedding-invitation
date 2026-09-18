@@ -36,8 +36,8 @@ export default function ScheduleOfEvents() {
   return (
     <div className="SchedOfEvents mx-auto w-full max-w-5xl px-6 py-[50px]">
       <div className="mobileVersionHeader md:hidden">
-        <p className="text-[10px] pr-[5px]">THE BIG DAY</p>
-        <p className="">SCHEDULE OF EVENTS</p>
+        <p className="text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs mb-2 pr-[5px]">THE BIG DAY</p>
+        <p className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl">SCHEDULE OF EVENTS</p>
         <hr className="my-3 w-6 border-t border-black" />
       </div>
 
@@ -91,8 +91,8 @@ export default function ScheduleOfEvents() {
       <div className="desktopVersion hidden md:flex md:w-full md:flex-col md:items-center">
         
         <div className="desktopVersionHeader flex flex-col items-center">
-          <p className="text-[10px] tracking-wide">THE BIG DAY</p>
-          <p className="mt-2 tracking-wide">SCHEDULE OF EVENTS</p>
+          <p className="text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs mb-2 pr-[5px]">THE BIG DAY</p>
+          <p className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-[32px] md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em]">SCHEDULE OF EVENTS</p>
           <hr className="my-3 w-6 border-t bg-black" />
         </div>
 

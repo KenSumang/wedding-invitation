@@ -159,7 +159,7 @@ export default function RSVP() {
         {/* KINDLY */}
         <p
           ref={headingRef}
-          className="text-[11px] uppercase tracking-[0.3em] text-[#666666] sm:text-xs"
+          className="text-[11px] uppercase tracking-[0.28em] text-[#555555] sm:text-xs"
         >
           Kindly
         </p>
@@ -167,7 +167,7 @@ export default function RSVP() {
         {/* RSVP */}
         <h2
           ref={titleRef}
-          className="mt-2 text-3xl uppercase tracking-[0.22em] text-[#202020] sm:text-4xl"
+          className="mt-2 text-3xl uppercase tracking-[0.18em] text-[#202020] sm:text-[32px] md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em]"
         >
           RSVP
         </h2>

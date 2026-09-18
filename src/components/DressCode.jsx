@@ -2,14 +2,16 @@ import DressCodeBanner from "../assets/dress_code_banner.avif"
 
 function DressCode() {
     return(
-        <section id="dress-code" className="dress-code w-full h-lvh">
+        <section id="dress-code" className="dress-code w-full h-lvh bg-green-200">
             <div className="container max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
                 <div className="wrapper w-full h-full flex">
                     <div className="contents w-full h-full flex flex-col mt-20">
                         <div className="dress-code-details w-full h-fit mb-12 flex flex-col gap-1.5 items-start">
-                            <p className="uppercase text-[15px] tracking-wide">Dress Code</p>
+                            <div className="mb-8 sm:mb-10">
+                                <p className="uppercase text-[11px] tracking-[0.28em] text-[#555555] uppercase mb-2 sm:text-xs">Dress Code</p>
 
-                            <h2 className="uppercase text-[22px] tracking-widest mb-4 md:text-[24px] lg:text-[28px] w-full">Attire</h2>
+                                <h2 className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-[32px] mb-4 w-full md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em]">Attire</h2>
+                            </div>
 
                             <p className="text-[15px] tracking-wider mb-6">We'd love to see you in these <br/> colors and styles for our special day.</p>
                         

@@ -13,11 +13,11 @@ function Invitation() {
                         <div className="description flex flex-col my-auto md:col-span-3 md:h-full md:justify-between">
 
                             <div className="details-a flex flex-col items-center mx-auto gap-8 mb-10 md:h-full md:justify-between md:items-start md:mx-0">
-                                <p className="uppercase text-[14px]">You are invited</p>
+                                <p className="uppercase text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs">You are invited</p>
 
                                 <div className="line hidden w-12 h-[.5px] bg-black md:block md:ml-1"></div>
 
-                                <h2 className="uppercase text-center text-[22px] max-w-65 tracking-widest md:text-start md:text-[24px] lg:text-[28px] lg:max-w-2/3">We invite you to witness our matrimony</h2>
+                                <h2 className="text-center max-w-100 text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-[32px] md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em] md:text-start lg:max-w-2/3">We invite you to witness our matrimony</h2>
 
                                 <div className="line w-12 h-[.4px] bg-black md:hidden xl:w-16"></div>
 

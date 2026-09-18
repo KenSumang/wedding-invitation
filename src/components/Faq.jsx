@@ -121,7 +121,7 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20">
+    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20 bg-red-200">
       <div className="mx-auto w-full max-w-[760px]">
         {/* Heading */}
         <div className="mb-8 sm:mb-10">
@@ -134,7 +134,7 @@ export default function FAQ() {
 
           <h2
             ref={titleRef}
-            className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl"
+            className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-[32px] md:text-[clamp(28px,2.5vw,40px)] md:leading-[1.5] md:tracking-[0.18em]"
           >
             Questions
           </h2>
