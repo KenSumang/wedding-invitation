@@ -35,10 +35,10 @@ export default function ScheduleOfEvents() {
 
   return (
     <div className="SchedOfEvents mx-auto w-full max-w-5xl px-6 py-[50px]">
-      <div className="mobileVersionHeader md:hidden">
-        <p className="text-[10px] pr-[5px]">THE BIG DAY</p>
-        <p className="">SCHEDULE OF EVENTS</p>
-        <hr className="my-3 w-6 border-t border-black" />
+      <div className="mobileVersionHeader md:hidden flex flex-col gap-2">
+        <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
+        <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
+        <div className="line w-9 h-[.5px] bg-[#BDBDBD] md:ml-1"></div>
       </div>
 
       <div className="mobileVersion my-[30px] md:hidden">
@@ -55,7 +55,7 @@ export default function ScheduleOfEvents() {
 
               {/* Dot */}
               <div className="relative z-10 flex justify-center">
-                <div className="h-2 w-2 rounded-full bg-black" />
+                <div className="h-2 w-2 rounded-full bg-gray-500" />
               </div>
 
               {/* Icon */}
@@ -82,17 +82,17 @@ export default function ScheduleOfEvents() {
           ))}
         </div>
       </div>
-      <div className="MobileVersionFooter flex flex-col items-center max-w-[250px] md:hidden">
-          <p>LET'S CELEBRATE!</p>
-          <hr className="border-t w-12 h-3 border-black mt-[20px]"/>
+      <div className="MobileVersionFooter flex flex-col items-center max-w-[250px] mx-auto md:hidden">
+          <p className="text-subtitle">LET'S CELEBRATE!</p>
+          <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
       </div>
 
       {/* Desktop version*/}
       <div className="desktopVersion hidden md:flex md:w-full md:flex-col md:items-center">
         
         <div className="desktopVersionHeader flex flex-col items-center">
-          <p className="text-[10px] tracking-wide">THE BIG DAY</p>
-          <p className="mt-2 tracking-wide">SCHEDULE OF EVENTS</p>
+        <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
+        <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
           <hr className="my-3 w-6 border-t bg-black" />
         </div>
 
@@ -109,7 +109,7 @@ export default function ScheduleOfEvents() {
             >
 
               {/* Circle */}
-              <div className="relative z-10 h-2 w-2 rounded-full border border-neutral-900 bg-black" />
+              <div className="relative z-10 h-2 w-2 rounded-full border border-neutral-900 bg-gray-500" />
 
               {/* Icon */}
               <div className="mt-6">
@@ -136,8 +136,8 @@ export default function ScheduleOfEvents() {
 
         </div>
         <div className="desktopVersionFooter hidden md:flex md:flex-col md:items-center">
-          <p>LET'S CELEBRATE!</p>
-          <hr className="border-t w-12 h-3 border-black mt-[20px]"/>
+          <p className="text-subtitle">LET'S CELEBRATE!</p>
+          <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
         </div>
 
       </div>
