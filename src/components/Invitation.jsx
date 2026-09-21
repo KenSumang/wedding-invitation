@@ -53,7 +53,7 @@ function Invitation() {
 
                                 <div className="line w-9 h-[.4px] bg-[#BDBDBD] md:hidden xl:w-16"></div>
 
-                                <p className="text-center text-content tracking-wider max-w-70 md:text-start lg:max-w-1/2">Join us as we say "I do" and begin this new chapter together. Your presence means everything to us.</p>
+                                <p className="text-center text-content tracking-wider max-w-70 md:text-start lg:max-w-1/2 xl:max-w-2/3">Join us as we say "I do" and begin this new chapter together. Your presence means everything to us.</p>
                             </div>
 
                             <div className="details-b mx-auto flex flex-wrap sm:flex-nowrap w-full">
