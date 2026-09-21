@@ -9,7 +9,7 @@ function Invitation() {
     const [elementVisibility, setElementVisibility] = useState(0);
 
     useEffect(() => {
-        const FADE_DISTANCE = 250;
+        const FADE_DISTANCE = 280;
         const VIS_RATE = 550
 
         const handleScroll = () => {
@@ -18,7 +18,6 @@ function Invitation() {
 
             setScrollProgress(2 - bgProgress);
             setElementVisibility(visProgress);
-            console.log(elementVisibility);
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });

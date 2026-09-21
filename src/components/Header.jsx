@@ -46,6 +46,29 @@ function Header() {
         return() => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    
+    const [scrollProgress, setScrollProgress] = useState(0);
+    const [elementVisibility, setElementVisibility] = useState(0);
+
+    useEffect(() => {
+        const FADE_DISTANCE = 250;
+        const VIS_RATE = 550
+
+        const handleScroll = () => {
+            const bgProgress = Math.min(window.scrollY / FADE_DISTANCE, 2);
+            const visProgress = Math.min(window.scrollY / VIS_RATE, 1);
+
+            setScrollProgress(2 - bgProgress);
+            setElementVisibility(visProgress);
+            console.log(elementVisibility);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll); 
+    }, []);
+
+    const isVisible = elementVisibility > 0;
+
     return (
         <header 
             className={`header justify-center w-full fixed top-0 left-0 z-50 transition-all duration-500 ${
