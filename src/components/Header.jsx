@@ -108,7 +108,7 @@ function Header() {
                             <NavigationData navData={NavData} />
                         </ul>
 
-                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-350 bg-white/30 backdrop-blur-lg ${
+                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-300 bg-white/30 backdrop-blur-lg ${
                                 isSideBarOpen
                                     ? "right-0"
                                     : "-right-1/2"
@@ -117,9 +117,11 @@ function Header() {
                             <div className="logo-close flex justify-between">
                                 <a href="#">
                                     <div className="header-logo flex items-center mx-5 my-2 mt-5.5 gap-2 order-first transition duration-300 text-black">
-                                        <h2 className="text-[20px]">A</h2>
-                                        <p className="text-[20px]">&</p>
-                                        <h2 className="text-[20px]">E</h2>
+                                        <img
+                                            src={LogoBlack}
+                                            alt="A & E Logo"
+                                            className="w-10"
+                                        />
                                     </div>
                                 </a>
                                 <div
