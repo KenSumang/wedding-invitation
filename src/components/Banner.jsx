@@ -1,10 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import CountdownTimer from "./CountdownTimer";
 
 function Banner() {
+    const [scrollProgress, setScrollProgress] = useState(0);
+
+    useEffect(() => {
+        const FADE_DISTANCE = 280;
+
+        const handleScroll = () => {
+            const bgProgress = Math.min(window.scrollY / FADE_DISTANCE, 2);
+
+            setScrollProgress(2 - bgProgress);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll); 
+    }, []);
+
     return (
         <section
             id="banner"
-            className="banner w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%] sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%] transition-all duration-300">
+            className="banner w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%]
+            sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%]"
+            style={{ opacity: scrollProgress}}
+            >
             
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-black z-0"></div>
             <div className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
