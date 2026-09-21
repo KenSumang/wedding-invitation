@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavData from './NavData';
+import Logo from '../assets/Logo.avif';
 
 function NavigationData({ navData }) {
     return (
@@ -46,29 +47,6 @@ function Header() {
         return() => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    
-    const [scrollProgress, setScrollProgress] = useState(0);
-    const [elementVisibility, setElementVisibility] = useState(0);
-
-    useEffect(() => {
-        const FADE_DISTANCE = 250;
-        const VIS_RATE = 550
-
-        const handleScroll = () => {
-            const bgProgress = Math.min(window.scrollY / FADE_DISTANCE, 2);
-            const visProgress = Math.min(window.scrollY / VIS_RATE, 1);
-
-            setScrollProgress(2 - bgProgress);
-            setElementVisibility(visProgress);
-            console.log(elementVisibility);
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll); 
-    }, []);
-
-    const isVisible = elementVisibility > 0;
-
     return (
         <header 
             className={`header justify-center w-full fixed top-0 left-0 z-50 transition-all duration-500 ${
@@ -106,9 +84,18 @@ function Header() {
                                     ? "hidden md:flex"
                                     : "flex"
                             }`}>
-                                <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">A</h2>
-                                <p className="text-[22px] md:text-[24px] 2xl:text-[30px]">&</p>
-                                <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">E</h2>
+                                <div className="logo relative w-16 h-16">
+                                    <img
+                                        src={Logo}
+                                        alt="A & E Logo"
+                                        className="w-16 absolute"
+                                    />
+                                    <img
+                                        src={Logo}
+                                        alt="A & E Logo"
+                                        className="w-16 absolute"
+                                    />
+                                </div>
                             </div>
                         </a>
 
