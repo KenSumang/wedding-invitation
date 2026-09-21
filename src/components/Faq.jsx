@@ -301,14 +301,14 @@ export default function FAQ() {
           <div className="mb-8 sm:mb-10 lg:mb-0 lg:flex lg:w-[320px] lg:shrink-0 lg:flex-col lg:items-center lg:text-center">
             <p
               ref={headingRef}
-              className="mb-2 text-[11px] tracking-[0.28em] text-[#555555] uppercase sm:text-xs"
+              className="mb-2 text-subtitle tracking-[0.28em] text-subtitle-color uppercase"
             >
               Frequently Asked
             </p>
 
             <h2
               ref={titleRef}
-              className="text-3xl tracking-[0.18em] text-[#202020] uppercase sm:text-4xl"
+              className="tracking-[0.18em] text-title text-title-color uppercase"
             >
               Questions
             </h2>

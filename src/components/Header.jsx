@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import CloseButtonIcon from '../assets/close.svg';
-
 import NavData from './NavData';
 
 function NavigationData({ navData }) {
     return (
         <>
             {navData.map((data) => (
-                // <li 
-                //     key={data.id}
-                //     className="h-full flex items-center">
-                //     <a className="flex p-2 mx-1 mb-2 items-center 2xl:mb-3 text-nowrap" href={data.link}>{data.label}</a>
-                // </li>
                 <>
                     <li 
                         key={data.id}
-                        className="group flex md:h-full items-center"
+                        className="group flex md:h-full items-center transition duration-300"
                     >
                         <a 
-                            className="flex px-5 py-5 w-full md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap hover:bg-black/50 hover:backdrop-blur-sm group-hover:text-white group-active"
+                            className="flex px-5 py-5 w-full md:hidden md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap hover:bg-black/50 hover:backdrop-blur-sm group-hover:text-white group-active"
+                            href={data.link}
+                        >{data.label}</a>
+                        <a 
+                            className="hidden px-5 py-5 w-full md:flex md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap group-active"
                             href={data.link}
                         >{data.label}</a>
                     </li>
@@ -51,15 +48,19 @@ function Header() {
 
     return (
         <header 
-            className={`header flex justify-center w-full fixed top-0 left-0 z-50 transition-all duration-500 ${
+            className={`header justify-center w-full fixed top-0 left-0 z-50 transition-all duration-500 ${
                 isScrolled 
                     ? "pb-6" 
                     : "bg-transparent"
-            }`}
-        >
+            }`}>
+
             <div 
-                className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+                className={`inset-0 transition-all duration-300 ${
                     isScrolled ? "opacity-100" : "opacity-0"
+                } ${
+                    isSideBarOpen 
+                    ? "pointer-events-none md:absolute"
+                    : "pointer-events-auto absolute"
                 }`}
                 style={{
                     backdropFilter: 'blur(12px)',
@@ -77,6 +78,10 @@ function Header() {
                         <a href="#">
                             <div className={`header-logo flex items-center gap-2 order-first transition duration-300 ${
                                 isScrolled ? "text-black" : "text-white"
+                            } ${
+                                isSideBarOpen
+                                    ? "hidden md:flex"
+                                    : "flex"
                             }`}>
                                 <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">A</h2>
                                 <p className="text-[22px] md:text-[24px] 2xl:text-[30px]">&</p>
@@ -91,7 +96,9 @@ function Header() {
                         </ul>
 
                         <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-350 bg-white/30 backdrop-blur-lg ${
-                                isSideBarOpen ? "right-0" : "-right-1/2"
+                                isSideBarOpen
+                                    ? "right-0"
+                                    : "-right-1/2"
                             }`}>
                             
                             <div className="logo-close flex justify-between">
@@ -102,22 +109,25 @@ function Header() {
                                         <h2 className="text-[20px]">E</h2>
                                     </div>
                                 </a>
-                                <img
-                                    src={CloseButtonIcon}
-                                    alt="close"
-                                    className="close-button mr-3 mb-4"
+                                <div
+                                    className="close-button mt-2.5 mr-2.5"
                                     onClick={handleMenuButton}
-                                />
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><title>close-bold</title><g fill="currentColor"><path d="M5.53717 19.5302C5.24427 19.8231 4.7694 19.8231 4.47651 19.5302C4.18361 19.2373 4.18361 18.7624 4.47651 18.4696L18.4764 4.46967C18.7693 4.17678 19.2442 4.17678 19.5371 4.46967C19.8299 4.76256 19.8299 5.23744 19.5371 5.53033L5.53717 19.5302Z"/><path d="M4.46978 5.53033C4.17689 5.23744 4.17689 4.76256 4.46978 4.46967C4.76268 4.17678 5.23755 4.17678 5.53044 4.46967L19.5303 18.4696C19.8232 18.7624 19.8232 19.2373 19.5303 19.5302C19.2374 19.8231 18.7626 19.8231 18.4697 19.5302L4.46978 5.53033Z"/></g></svg>
+                                </div>
                             </div>
 
                             <ul className="header-side-nav-links h-full flex flex-col text-[11px] uppercase tracking-widest">
                                 <NavigationData navData={NavData} />
                             </ul>
-                            <div className="line w-full h-[1px] bg-black mx-7"></div>
                         </div>
 
                         <div
-                            className="header-hamburger grid grid-cols-1 gap-1.5 justify-items-center md:hidden py-3 cursor-pointer"
+                            className={`header-hamburger grid grid-cols-1 gap-1.5 justify-items-center md:hidden py-3 cursor-pointer  ${
+                            isSideBarOpen
+                                ? "hidden"
+                                : "block"
+                        }`}
                             onClick={handleMenuButton}
                         >
                             <div className={`w-[26px] h-0.5 transition duration-300 rounded-full ${
