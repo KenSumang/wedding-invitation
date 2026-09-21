@@ -1,24 +1,37 @@
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function RSVP() {
-  const navigate = useNavigate();
+// Paste the Web app URL from Apps Script (ends in /exec).
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQ-uvbeXsESedNXPdeni3KFrR8Q7DzNq95stwXO82uAj1olJg8oU5QXotdN17bexBgfA/exec";
 
+export default function RSVP() {
   const sectionRef = useRef(null);
 
   const headingRef = useRef(null);
   const titleRef = useRef(null);
   const messageRef = useRef(null);
   const deadlineRef = useRef(null);
-  const buttonRef = useRef(null);
+  const formRef = useRef(null);
   const dividerRef = useRef(null);
   const thankYouRef = useRef(null);
   const namesRef = useRef(null);
   const dateRef = useRef(null);
+  const dialogRef = useRef(null);
+
+  const [code, setCode] = useState("");
+  const [guest, setGuest] = useState(null); // { name, rsvpDetails, isAttending }
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [modalError, setModalError] = useState("");
+  const [step, setStep] = useState("attend"); // "attend" -> "dietary" -> "done"
+  const [choice, setChoice] = useState(null); // "yes" or "no"
+  const [dietary, setDietary] = useState("");
+  const [isClosed, setIsClosed] = useState(false); // true after the closing date
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -29,7 +42,7 @@ export default function RSVP() {
           titleRef.current,
           messageRef.current,
           deadlineRef.current,
-          buttonRef.current,
+          formRef.current,
           thankYouRef.current,
           namesRef.current,
           dateRef.current,
@@ -91,7 +104,7 @@ export default function RSVP() {
           "-=0.55"
         )
         .to(
-          buttonRef.current,
+          formRef.current,
           {
             opacity: 1,
             y: 0,
@@ -137,7 +150,6 @@ export default function RSVP() {
             y: 0,
             duration: 0.75,
             ease: "power2.out",
-            toggleActions: "restart reverse restart reverse",
           },
           "-=0.5"
         );
@@ -146,8 +158,99 @@ export default function RSVP() {
     return () => ctx.revert();
   }, []);
 
-  const handleRSVP = () => {
-    navigate("/rsvp");
+  // Move focus into the popup when it opens.
+  useEffect(() => {
+    if (guest || isClosed) dialogRef.current?.focus();
+  }, [guest, isClosed, step]);
+
+  // Close the popup with Escape.
+  useEffect(() => {
+    if (!guest && !isClosed) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape" && !saving) {
+        setGuest(null);
+        setIsClosed(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [guest, isClosed, saving]);
+
+  // Check the code against the Google Sheet.
+  const handleCheckCode = async (e) => {
+    e.preventDefault();
+    const trimmed = code.trim();
+    if (!trimmed) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(
+        `${APPS_SCRIPT_URL}?code=${encodeURIComponent(trimmed)}`
+      );
+      const data = await res.json();
+
+      if (data.closed) {
+        setIsClosed(true);
+      } else if (data.found) {
+        setModalError("");
+        setStep("attend");
+        setChoice(null);
+        setDietary(data.dietary || "");
+        setGuest(data);
+      } else {
+        setError(
+          "We couldn't find that code. Please check your invitation and try again."
+        );
+      }
+    } catch {
+      setError("Something went wrong. Please try again in a moment.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // STEP 1, "Yes": remember the choice and go to the dietary step. Nothing is saved yet.
+  const chooseYes = () => {
+    setChoice("yes");
+    setModalError("");
+    setStep("dietary");
+  };
+
+  // Saves the response, then shows the final message popup.
+  // "No" saves straight from step 1. "Yes" saves from the dietary step, together with the note.
+  const saveResponse = async (attending) => {
+    setSaving(true);
+    setModalError("");
+
+    try {
+      // text/plain keeps this a "simple" request, which Apps Script accepts from a browser.
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          code: code.trim(),
+          attending,
+          dietary: attending === "yes" ? dietary.trim() : "",
+        }),
+      });
+      const data = await res.json();
+      if (data.closed) {
+        setGuest(null);
+        setIsClosed(true);
+        return;
+      }
+      if (!data.ok) throw new Error("Save failed");
+
+      setChoice(attending);
+      setStep("done");
+      setCode("");
+    } catch {
+      setModalError("We couldn't save your response. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -189,62 +292,104 @@ export default function RSVP() {
         >
           Kindly reply by{" "}
           <span className="text-[#444444]">
-            December 1, 2026
+            October 30, 2026
           </span>
         </p>
 
-        {/* RSVP BUTTON */}
-        <button
-          ref={buttonRef}
-          type="button"
-          onClick={handleRSVP}
-          className="
-            group
-            mt-10
-            flex
-            h-[52px]
-            w-full
-            max-w-[360px]
-            items-center
-            justify-between
-            bg-[#1F1F1F]
-            px-5
-            text-[11px]
-            uppercase
-            tracking-[0.2em]
-            text-white
-            transition-colors
-            duration-300
-            hover:bg-[#2B2B2B]
-            active:scale-[0.99]
-            sm:mt-11
-          "
+        {/* CODE TEXTBOX + CHECK BUTTON */}
+        <form
+          ref={formRef}
+          onSubmit={handleCheckCode}
+          className="mt-10 flex w-full max-w-[360px] flex-col sm:mt-11"
         >
-          {/* Invisible spacer */}
-          <span className="w-5" />
-
-          {/* Text */}
-          <span>
-            GO TO RSVP
-          </span>
-
-          {/* Arrow */}
-          <span
-            aria-hidden="true"
+          <input
+            type="text"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Enter your code"
+            aria-label="Invitation code"
+            maxLength={40}
+            autoComplete="off"
+            autoCapitalize="characters"
+            spellCheck={false}
             className="
-              w-5
-              text-right
-              text-[18px]
-              font-light
-              leading-none
-              transition-transform
+              h-[52px]
+              w-full
+              border
+              border-[#BDBDBD]
+              bg-transparent
+              px-5
+              text-center
+              text-[13px]
+              uppercase
+              tracking-[0.2em]
+              text-[#333333]
+              placeholder:text-[#AAAAAA]
+              focus:border-[#1F1F1F]
+              focus:outline-none
+              focus-visible:ring-1
+              focus-visible:ring-[#1F1F1F]
+            "
+          />
+
+          <button
+            type="submit"
+            disabled={loading || !code.trim()}
+            className="
+              group
+              mt-3
+              flex
+              h-[52px]
+              w-full
+              items-center
+              justify-between
+              bg-[#1F1F1F]
+              px-5
+              text-[11px]
+              uppercase
+              tracking-[0.2em]
+              text-white
+              transition-colors
               duration-300
-              group-hover:translate-x-1
+              hover:bg-[#2B2B2B]
+              active:scale-[0.99]
+              disabled:cursor-not-allowed
+              disabled:opacity-50
             "
           >
-            →
-          </span>
-        </button>
+            {/* Invisible spacer */}
+            <span className="w-5" />
+
+            {/* Text */}
+            <span>{loading ? "Checking..." : "Check code"}</span>
+
+            {/* Arrow */}
+            <span
+              aria-hidden="true"
+              className="
+                w-5
+                text-right
+                text-[18px]
+                font-light
+                leading-none
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            >
+              →
+            </span>
+          </button>
+
+          {/* STATUS MESSAGES */}
+          <div role="status" aria-live="polite" className="text-center">
+            {error && (
+              <p className="pt-4 text-sm leading-6 tracking-wide text-[#A23B3B]">
+                {error}
+              </p>
+            )}
+          </div>
+        </form>
 
         {/* DIVIDER */}
         <div
@@ -276,6 +421,262 @@ export default function RSVP() {
           </p>
         </div>
       </div>
+
+      {/* POPUP (rendered on document.body so the GSAP transforms above can't affect it) */}
+      {guest &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-6"
+            onClick={() => !saving && setGuest(null)}
+          >
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="rsvp-dialog-title"
+              tabIndex={-1}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-[90vh] w-full max-w-[380px] overflow-y-auto bg-white px-6 py-9 text-center outline-none sm:px-8"
+            >
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#666666]">
+                Dear
+              </p>
+
+              <h3
+                id="rsvp-dialog-title"
+                className="mt-2 text-xl uppercase tracking-[0.18em] text-[#202020]"
+              >
+                {guest.name}
+              </h3>
+
+              {step === "attend" && (
+                <>
+                  {/* STEP 1: CAN THEY ATTEND? ("Yes" saves nothing yet, "No" saves and finishes) */}
+                  <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
+                    {guest.rsvpDetails}
+                  </p>
+
+                  {guest.isAttending && (
+                    <p className="mt-4 text-sm tracking-wide text-[#777777]">
+                      Your current answer: {guest.isAttending}. You can change it below.
+                    </p>
+                  )}
+
+                  <p className="mt-6 text-sm leading-6 tracking-wide text-[#444444]">
+                    Please confirm if you will attend by clicking “YES” button
+                    below; otherwise, click “NO”
+                  </p>
+
+                  {modalError && (
+                    <p className="mt-4 text-sm tracking-wide text-[#A23B3B]">
+                      {modalError}
+                    </p>
+                  )}
+
+                  <div className="mt-8 flex gap-3">
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={chooseYes}
+                      className="
+                        h-[48px]
+                        flex-1
+                        bg-[#1F1F1F]
+                        text-[11px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-white
+                        transition-colors
+                        duration-300
+                        hover:bg-[#2B2B2B]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                      "
+                    >
+                      Yes
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => saveResponse("no")}
+                      className="
+                        h-[48px]
+                        flex-1
+                        border
+                        border-[#1F1F1F]
+                        text-[11px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-[#1F1F1F]
+                        transition-colors
+                        duration-300
+                        hover:bg-[#F2F2F2]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                      "
+                    >
+                      {saving ? "Saving..." : "No"}
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {step === "dietary" && (
+                <>
+                  {/* STEP 2 (Yes only): DIETARY RESTRICTIONS + SUBMIT (saves everything) */}
+                  <p className="mt-6 text-sm leading-6 tracking-wide text-[#444444]">
+                    If you have any dietary restrictions or allergies, please inform us
+                    through this RSVP.
+                  </p>
+
+                  <textarea
+                    value={dietary}
+                    onChange={(e) => setDietary(e.target.value)}
+                    placeholder="Tell us about your dietary restriction (optional)"
+                    aria-label="Dietary restriction details"
+                    maxLength={300}
+                    rows={3}
+                    className="
+                      mt-4
+                      w-full
+                      resize-none
+                      border
+                      border-[#BDBDBD]
+                      bg-transparent
+                      p-3
+                      text-sm
+                      leading-6
+                      tracking-wide
+                      text-[#333333]
+                      placeholder:text-[#AAAAAA]
+                      focus:border-[#1F1F1F]
+                      focus:outline-none
+                      focus-visible:ring-1
+                      focus-visible:ring-[#1F1F1F]
+                    "
+                  />
+
+                  {modalError && (
+                    <p className="mt-4 text-sm tracking-wide text-[#A23B3B]">
+                      {modalError}
+                    </p>
+                  )}
+
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => saveResponse("yes")}
+                    className="
+                      mt-8
+                      h-[48px]
+                      w-full
+                      bg-[#1F1F1F]
+                      text-[11px]
+                      uppercase
+                      tracking-[0.2em]
+                      text-white
+                      transition-colors
+                      duration-300
+                      hover:bg-[#2B2B2B]
+                      disabled:cursor-not-allowed
+                      disabled:opacity-50
+                    "
+                  >
+                    {saving ? "Submitting..." : "Submit my response"}
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => setStep("attend")}
+                    className="mt-4 text-[11px] uppercase tracking-[0.2em] text-[#777777] transition-colors duration-300 hover:text-[#1F1F1F] disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                </>
+              )}
+
+              {step === "done" && (
+                <>
+                  {/* FINAL MESSAGE (shown after the response is saved) */}
+                  <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
+                    {choice === "yes"
+                      ? "Thank you for confirming and see you on Jan 15, 2027!"
+                      : "We understand that you won’t be able to join us on our special day. Thank you for letting us know, and please know that you’ll be missed!"}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={() => setGuest(null)}
+                    className="
+                      mt-8
+                      h-[48px]
+                      w-full
+                      bg-[#1F1F1F]
+                      text-[11px]
+                      uppercase
+                      tracking-[0.2em]
+                      text-white
+                      transition-colors
+                      duration-300
+                      hover:bg-[#2B2B2B]
+                    "
+                  >
+                    Close
+                  </button>
+                </>
+              )}
+            </div>
+          </div>,
+          document.body
+        )}
+
+      {/* CLOSED POPUP (shown after the closing date instead of the RSVP popup) */}
+      {isClosed &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-6"
+            onClick={() => setIsClosed(false)}
+          >
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="RSVP closed"
+              tabIndex={-1}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-[90vh] w-full max-w-[380px] overflow-y-auto bg-white px-6 py-9 text-center outline-none sm:px-8"
+            >
+              <p className="text-base leading-7 tracking-wide text-[#858585]">
+                Hi! The RSVP form is already closed. If you weren’t able to
+                respond earlier, please feel free to message us directly and
+                let us know. Thank you so much!
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setIsClosed(false)}
+                className="
+                  mt-8
+                  h-[48px]
+                  w-full
+                  bg-[#1F1F1F]
+                  text-[11px]
+                  uppercase
+                  tracking-[0.2em]
+                  text-white
+                  transition-colors
+                  duration-300
+                  hover:bg-[#2B2B2B]
+                "
+              >
+                Close
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </section>
   );
 }
