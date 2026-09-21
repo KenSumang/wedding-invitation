@@ -28,6 +28,7 @@ function getTimeRemaining(targetDate) {
 export default function CountdownTimer({
   // Philippine Time (UTC+8)
   targetDate = "2027-01-15T12:30:00+08:00",
+  // targetDate = "2026-09-19T12:04:00+08:00",
 }) {
   const [tick, setTick] = useState(0);
 
@@ -73,9 +74,9 @@ export default function CountdownTimer({
   ];
 
   return (
-    <div className="w-full flex flex-col items-center md:items-start font-serif">
+    <div className="w-full flex flex-col items-center md:items-start">
       {timeLeft.total <= 0 ? (
-        <p className="text-lg sm:text-xl md:text-2xl text-center md:text-left text-white m-0">
+        <p className="text-lg uppercase tracking-[.20em] sm:text-xl md:text-2xl text-center md:text-left text-white m-0">
           The moment has arrived.
         </p>
       ) : (
@@ -84,24 +85,21 @@ export default function CountdownTimer({
             {units.map((unit, i) => (
               <div
                 key={unit.label}
-                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center pr-1.5 sm:pr-3 md:pr-4 2xl:pr-5 ${
+                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center pr-3 md:pr-4 2xl:pr-5 ${
                   i === 0
                     ? "pl-0"
                     : "pl-1.5 sm:pl-3 md:pl-4 2xl:pl-5 border-l border-white/20"
                 }`}
               >
-                {/* Number */}
+
                 <span
                   className="
-                    text-lg
-                    sm:text-2xl
-                    md:text-3xl
-                    2xl:text-4xl
+                    text-countdown-number
                     leading-none
+                    tracking-[.18em]
                     font-normal
                     text-[#D9A441]
                     tabular-nums
-                    font-['Tenor_Sans']
                   "
                 >
                   {String(unit.value).padStart(2, "0")}
@@ -110,15 +108,12 @@ export default function CountdownTimer({
                 {/* Label */}
                 <span
                   className="
+                    text-countdown-label
                     mt-1.5
                     sm:mt-2
-                    text-[8px]
-                    sm:text-[10px]
-                    md:text-[11px]
-                    tracking-widest
+                    tracking-[.18em]
                     uppercase
-                    font-sans
-                    text-white/70
+                    text-white
                   "
                 >
                   {unit.label}
@@ -128,7 +123,7 @@ export default function CountdownTimer({
           </div>
 
           {/* Subtitle */}
-          <p className="mt-4 sm:mt-5 md:mt-6 w-full text-center text-sm sm:text-base md:text-lg 2xl:text-xl font-sans text-white/60">
+          <p className="mt-4 sm:mt-5 md:mt-8 md:text-start w-full text-center tracking-[.28em] uppercase text-banner-subtitle text-white">
             until we say 'I do'
           </p>
         </div>

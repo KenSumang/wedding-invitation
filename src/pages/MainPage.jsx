@@ -12,18 +12,18 @@ import VenueReception from '../components/VenueReception';
 
 function MainPage() {
   return (
-    <>
+    <div>
       <Header />
       <Banner />
       <Invitation />
-      <Details/>
+      {/* <Details/> */}
       <DressCode />
       <Faq/>
       <ScheduleOfEvents />
       <VenueChurch />
       <VenueReception />
       <Rsvp/>
-    </>
+    </div>
   );
 }
 
