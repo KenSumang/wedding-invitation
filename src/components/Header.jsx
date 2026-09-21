@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NavData from './NavData';
-import Logo from '../assets/Logo.avif';
+import LogoBlack from '../assets/Logo_black.avif';
+import LogoWhite from '../assets/Logo_white.avif';
 
 function NavigationData({ navData }) {
     return (
@@ -86,14 +87,16 @@ function Header() {
                             }`}>
                                 <div className="logo relative w-16 h-16">
                                     <img
-                                        src={Logo}
+                                        src={LogoWhite}
                                         alt="A & E Logo"
                                         className="w-16 absolute"
                                     />
                                     <img
-                                        src={Logo}
+                                        src={LogoBlack}
                                         alt="A & E Logo"
-                                        className="w-16 absolute"
+                                        className={`w-16 absolute transition-all duration-300 ${
+                                            isScrolled ? "opacity-100" : "opacity-0"
+                                        }`}
                                     />
                                 </div>
                             </div>
