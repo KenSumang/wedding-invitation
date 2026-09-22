@@ -131,7 +131,7 @@ export default function VenueChurch() {
           <img
             src={churchImage}
             alt="The Garden Valley Hotel"
-            className="block h-full w-auto object-cover object-center"
+            className="block h-full w-auto object-contain object-center"
           />
         </div>
       </div>

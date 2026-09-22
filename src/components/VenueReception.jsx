@@ -133,7 +133,7 @@ export default function VenueReception() {
           <img
             src={receptionImage}
             alt="The Garden Valley Hotel"
-            className="block h-full w-auto object-cover"
+            className="block h-full w-auto object-contain"
           />
         </div>
       </div>
