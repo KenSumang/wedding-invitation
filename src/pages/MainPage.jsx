@@ -9,6 +9,7 @@ import DressCode from '../components/DressCode';
 import CountdownTimer from '../components/CountdownTimer';
 import VenueChurch from '../components/VenueChurch';
 import VenueReception from '../components/VenueReception';
+import Footer from '../components/Footer';
 
 function MainPage() {
   return (
@@ -16,13 +17,13 @@ function MainPage() {
       <Header />
       <Banner />
       <Invitation />
-      {/* <Details/> */}
-      <DressCode />
-      <Faq/>
-      <ScheduleOfEvents />
       <VenueChurch />
       <VenueReception />
+      <ScheduleOfEvents />
+      <DressCode />
       <Rsvp/>
+      <Faq/>
+      <Footer/>
     </div>
   );
 }

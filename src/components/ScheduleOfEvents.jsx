@@ -1,3 +1,7 @@
+import { useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import GuestArrival from '../assets/schedule-guest-arrival.avif';
 import Processional from '../assets/schedule-processional.avif';
 import WeddingCeremony from '../assets/schedule-wedding-ceremony.avif';
@@ -9,7 +13,93 @@ import GrandEntrance from '../assets/schedule-grand-entrance.avif';
 import Dinner from '../assets/schedule-dinner.avif';
 import Closing from '../assets/schedule-closing.avif';
 
+gsap.registerPlugin(ScrollTrigger);
+
+// Color the dots turn once the line reaches them
+const REACHED = '#202020';
+
+const q = (root, selector) => gsap.utils.toArray(selector, root);
+
+/* ---------- Mobile: vertical line, draws itself as you scroll down the page ---------- */
+function animateMobile(root) {
+  const fill = root.querySelector('.line-fill');
+
+  gsap.set(fill, { height: 0 });
+  gsap.to(fill, {
+    height: '100%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: root,
+      start: 'top 65%',
+      end: 'bottom 65%',
+      scrub: 0.5,
+    },
+  });
+
+ 
+  q(root, '.event-item').forEach((item) => {
+    const dot = item.querySelector('.event-dot');
+    const parts = q(item, '.event-anim');
+
+    gsap.set(parts, { autoAlpha: 0, x: 24 });
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'center 60%',
+          toggleActions: 'play none none reverse',
+        },
+      })
+      .to(dot, { backgroundColor: REACHED, scale: 1.6, duration: 0.35, ease: 'back.out(3)' })
+      .to(
+        parts,
+        { autoAlpha: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.12 },
+        '<0.1'
+      );
+  });
+}
+
+/* ---------- Desktop: horizontal line, section pins while the line draws across ---------- */
+function animateDesktop(root) {
+  const fill = root.querySelector('.line-fill');
+  const items = q(root, '.event-item');
+  const n = items.length;
+
+  gsap.set(fill, { width: 0 });
+  gsap.set(q(root, '.event-anim'), { autoAlpha: 0, y: 20 });
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: root,
+      start: 'center center',
+      end: `+=${n * 200}`,
+      pin: true,
+      scrub: 0.6,
+      anticipatePin: 1,
+    },
+  });
+
+  tl.to(fill, { width: '100%', duration: n }, 0);
+
+  items.forEach((item, i) => {
+    tl.to(
+      item.querySelector('.event-dot'),
+      { backgroundColor: REACHED, scale: 1.6, duration: 0.3, ease: 'back.out(3)' },
+      i + 0.5
+    ).to(
+      q(item, '.event-anim'),
+      { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
+      i + 0.55
+    );
+  });
+}
+
 export default function ScheduleOfEvents() {
+  const mobileRef = useRef(null);
+  const desktopRef = useRef(null);
+
   const events = [
     {
       time: "12:00 PM",
@@ -23,12 +113,12 @@ export default function ScheduleOfEvents() {
     },
     {
       time: "1:00 PM",
-      title: "WeddingCeremony",
+      title: "Wedding Ceremony",
       icon: WeddingCeremony,
     },
     {
       time: "2:30 PM",
-      title: "Church family, friends & couple portraits",
+      title: "Church Photos (Family, Friends and Couple)",
       icon: Portraits,
     },
     {
@@ -63,6 +153,41 @@ export default function ScheduleOfEvents() {
     },
   ];
 
+  useLayoutEffect(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add(
+      {
+        mobile: '(max-width: 1023px)',
+        desktop: '(min-width: 1024px)',
+        motion: '(prefers-reduced-motion: no-preference)',
+      },
+      (context) => {
+        const { mobile, desktop, motion } = context.conditions;
+
+        // Reduced motion: leave everything visible and static
+        if (!motion) return;
+
+        if (mobile) animateMobile(mobileRef.current);
+        if (desktop) animateDesktop(desktopRef.current);
+      }
+    );
+
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.sort(); // order triggers top-to-bottom so pin spacing is applied correctly
+      ScrollTrigger.refresh();
+    }, 150);
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener('load', onLoad);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('load', onLoad);
+      mm.revert(); 
+    };
+  }, []);
+
   return (
     <div className="SchedOfEvents w-full h-full">
       <div className="container max-w-full h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18">
@@ -74,24 +199,26 @@ export default function ScheduleOfEvents() {
           </div>
 
           <div className="mobileVersion my-[30px] lg:hidden">
-            <div className="relative">
+            <div ref={mobileRef} className="relative">
 
-              {/* Continuous vertical line */}
-              <div className="absolute left-[7px] top-0 bottom-0 w-px bg-neutral-300 ml-[2.5px]" />
- 
+              {/* Vertical track + fill line */}
+              <div className="absolute left-[7px] top-0 bottom-0 w-px bg-neutral-300 ml-[2.5px]">
+                <div className="line-fill absolute left-0 top-0 w-full bg-neutral-900" />
+              </div>
+
               {events.map((event) => (
                 <div
                   key={event.title}
-                  className="relative grid grid-cols-[20px_68px_1fr] gap-x-2 items-center mb-10"
+                  className="event-item relative grid grid-cols-[20px_68px_1fr] gap-x-2 items-center mb-10"
                 >
 
                   {/* Dot */}
                   <div className="relative z-10 flex justify-center">
-                    <div className="h-2 w-2 rounded-full bg-gray-500" />
+                    <div className="event-dot h-2 w-2 rounded-full bg-gray-500" />
                   </div>
 
                   {/* Icon */}
-                  <div className="flex justify-center">
+                  <div className="event-anim flex justify-center">
                     <img
                       src={event.icon}
                       alt=""
@@ -100,7 +227,7 @@ export default function ScheduleOfEvents() {
                   </div>
 
                   {/* Event details */}
-                  <div className="flex flex-col items-start">
+                  <div className="event-anim flex flex-col items-start">
                     <p className="text-details tracking-widest">
                       {event.time}
                     </p>
@@ -119,59 +246,63 @@ export default function ScheduleOfEvents() {
               <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
           </div>
 
-          {/* Desktop version*/}
-          <div className="desktopVersion hidden w-full lg:flex md:flex-col md:items-center">
-            
-            <div className="desktopVersionHeader flex flex-col items-center">
-              <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
-              <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
-              <hr className="my-3 w-6 border-t bg-black" />
-            </div>
+          {/* Desktop version (this wrapper is what gets pinned) */}
+          <div ref={desktopRef} className="hidden w-full lg:block">
+            <div className="desktopVersion flex w-full flex-col items-center">
 
-            {/* Timeline */}
-            <div className="relative flex w-full my-[30px]">
+              <div className="desktopVersionHeader flex flex-col items-center">
+                <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
+                <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
+                <hr className="my-3 w-6 border-t bg-black" />
+              </div>
 
-              {/* Continuous horizontal line */}
-              <div className="absolute left-0 right-0 top-[4px] h-px bg-neutral-300" />
+              {/* Timeline */}
+              <div className="relative flex w-full my-[30px]">
 
-              {events.map((event) => (
-                <div
-                  key={event.title}
-                  className="relative flex flex-1 flex-col items-center"
-                >
-
-                  {/* Circle */}
-                  <div className="relative z-10 h-2 w-2 rounded-full border border-neutral-900 bg-gray-500" />
-
-                  {/* Icon */}
-                  <div className="mt-6">
-                    <img
-                      src={event.icon}
-                      alt=""
-                      className="h-8 w-8 object-contain"
-                    />
-                  </div>
-
-                  {/* Event details */}
-                  <div className="mt-3 text-center">
-                    <p className="text-sm tracking-widest">
-                      {event.time}
-                    </p>
-
-                    <h3 className="mt-1 text-base font-medium tracking-wide">
-                      {event.title}
-                    </h3>
-                  </div>
-
+                {/* Horizontal track + fill line */}
+                <div className="absolute left-0 right-0 top-[4px] h-px bg-neutral-300">
+                  <div className="line-fill absolute left-0 top-0 h-full bg-neutral-900" />
                 </div>
-              ))}
+
+                {events.map((event) => (
+                  <div
+                    key={event.title}
+                    className="event-item relative flex flex-1 flex-col items-center"
+                  >
+
+                    {/* Circle */}
+                    <div className="event-dot relative z-10 h-2 w-2 rounded-full border border-neutral-900 bg-gray-500" />
+
+                    {/* Icon */}
+                    <div className="event-anim mt-6">
+                      <img
+                        src={event.icon}
+                        alt=""
+                        className="h-8 w-8 object-contain"
+                      />
+                    </div>
+
+                    {/* Event details */}
+                    <div className="event-anim mt-3 text-center">
+                      <p className="text-sm tracking-widest">
+                        {event.time}
+                      </p>
+
+                      <h3 className="mt-1 text-base font-medium tracking-wide">
+                        {event.title}
+                      </h3>
+                    </div>
+
+                  </div>
+                ))}
+
+              </div>
+              <div className="desktopVersionFooter flex flex-col items-center">
+                <p className="text-subtitle">LET'S CELEBRATE!</p>
+                <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
+              </div>
 
             </div>
-            <div className="desktopVersionFooter hidden md:flex md:flex-col md:items-center">
-              <p className="text-subtitle">LET'S CELEBRATE!</p>
-              <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
-            </div>
-
           </div>
         </div>
       </div>
