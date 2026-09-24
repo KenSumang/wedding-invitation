@@ -7,21 +7,24 @@ function NavigationData({ navData }) {
     return (
         <>
             {navData.map((data) => (
-                <>
-                    <li 
-                        key={data.id}
-                        className="group flex md:h-full items-center transition duration-300"
+                <li
+                    key={data.id}
+                    className="group flex md:h-full items-center transition duration-300"
+                >
+                    <a
+                        className="flex px-5 py-5 w-full md:hidden md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap hover:bg-black/50 hover:backdrop-blur-sm group-hover:text-white group-active"
+                        href={data.link}
                     >
-                        <a 
-                            className="flex px-5 py-5 w-full md:hidden md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap hover:bg-black/50 hover:backdrop-blur-sm group-hover:text-white group-active"
-                            href={data.link}
-                        >{data.label}</a>
-                        <a 
-                            className="hidden px-5 py-5 w-full md:flex md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap group-active"
-                            href={data.link}
-                        >{data.label}</a>
-                    </li>
-                </>
+                        {data.label}
+                    </a>
+
+                    <a
+                        className="hidden px-5 py-5 w-full md:flex md:p-2 md:mx-1 md:mb-2 2xl:mb-3 text-nowrap group-active"
+                        href={data.link}
+                    >
+                        {data.label}
+                    </a>
+                </li>
             ))}
         </>
     );

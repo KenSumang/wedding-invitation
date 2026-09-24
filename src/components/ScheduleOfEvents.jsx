@@ -191,8 +191,8 @@ export default function ScheduleOfEvents() {
   return (
     <div className="SchedOfEvents w-full h-full">
       <div className="container max-w-full h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18">
-        <div className="wrapper w-full h-full md:flex md:flex-col md:items-center">
-          <div className="mobileVersionHeader  flex flex-col gap-2 md:items-center">
+        <div className="wrapper w-full h-full">
+          <div className="mobileVersionHeader lg:hidden flex flex-col gap-2">
             <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>
             <p className="text-title text-title-color tracking-[.18em]">SCHEDULE OF EVENTS</p>
             <div className="line w-9 h-[.5px] bg-[#BDBDBD] md:ml-1"></div>
@@ -241,7 +241,7 @@ export default function ScheduleOfEvents() {
               ))}
             </div>
           </div>
-          <div className="MobileVersionFooter flex flex-col items-center max-w-[250px] mx-auto ">
+          <div className="MobileVersionFooter flex flex-col items-center max-w-[250px] mx-auto md:hidden">
               <p className="text-subtitle">LET'S CELEBRATE!</p>
               <div className="line w-9 h-[.5px] bg-[#BDBDBD] mt-8 md:ml-1"></div>
           </div>
