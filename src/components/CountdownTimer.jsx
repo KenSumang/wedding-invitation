@@ -82,7 +82,7 @@ export default function CountdownTimer({
   const units = [
     { label: "weeks", abbr: "weeks", value: timeLeft.weeks },
     { label: "days", abbr: "days", value: timeLeft.days },
-    { label: "hours", abbr: "hours", value: timeLeft.hours },
+    { label: "hours", abbr: "hrs", value: timeLeft.hours },
     { label: "minutes", abbr: "mins", value: timeLeft.minutes },
     { label: "seconds", abbr: "sec", value: timeLeft.seconds },
   ];
@@ -99,8 +99,8 @@ export default function CountdownTimer({
             {units.map((unit, i) => (
               <div
                 key={unit.label}
-                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center px-1.5 sm:px-3 md:px-4 2xl:px-5 ${
-                  i === 0 ? "" : "border-l border-white/20"
+                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center pe-1.5 sm:pe-3 md:pe-4 2xl:pe-5 ${
+                  i === 0 ? "" : "ps-1.5 sm:ps-3 md:ps-4 2xl:ps-5 border-l border-white/20"
                 }`}
               >
                 <span

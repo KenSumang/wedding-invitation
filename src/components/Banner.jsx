@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
 import CountdownTimer from "./CountdownTimer";
 
 function Banner() {
+    const [scrollProgress, setScrollProgress] = useState(0);
+
     const subtitleRef = useRef(null);
     const armandRef = useRef(null);
     const ampersandRef = useRef(null);
@@ -14,8 +16,21 @@ function Banner() {
     const scrollRef = useRef(null);
 
     useEffect(() => {
+        const FADE_DISTANCE = 280;
+
+        const handleScroll = () => {
+            const bgProgress = Math.min(window.scrollY / FADE_DISTANCE, 2);
+            setScrollProgress(2 - bgProgress);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll); 
+    }, []);
+
+
+    useEffect(() => {
         const prefersReducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
+            '(prefers-reduced-motion: reduce)'
         ).matches;
 
         const fadeTargets = [
@@ -31,10 +46,6 @@ function Banner() {
 
         gsap.set(fadeTargets, { opacity: 0, y: 18 });
         gsap.set(lines, { opacity: 0, scaleX: 0 });
-        const handleScroll = () => {
-            const bgProgress = Math.min(window.scrollY / FADE_DISTANCE, 2);
-            setScrollProgress(2 - bgProgress);
-        };
 
         if (prefersReducedMotion) {
             gsap.set(fadeTargets, { opacity: 1, y: 0 });
@@ -44,16 +55,16 @@ function Banner() {
 
         const ctx = gsap.context(() => {
             gsap
-                .timeline({ defaults: { ease: "power2.out" }, delay: 0.2 })
+                .timeline({ defaults: { ease: 'power2.out' }, delay: 0.2 })
                 .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.9 })
-                .to(armandRef.current, { opacity: 1, y: 0, duration: 0.8 }, "-=0.45")
-                .to(ampersandRef.current, { opacity: 1, y: 0, duration: 0.6 }, "-=0.5")
-                .to(edelynRef.current, { opacity: 1, y: 0, duration: 0.8 }, "-=0.45")
-                .to(lineMobileRef.current, { opacity: 1, scaleX: 1, duration: 0.6 }, "-=0.35")
-                .to(lineDesktopRef.current, { opacity: 1, scaleX: 1, duration: 0.6 }, "-=0.35")
-                .to(dateRef.current, { opacity: 1, y: 0, duration: 0.8 }, "-=0.2")
-                .to(countdownRef.current, { opacity: 1, y: 0, duration: 0.9 }, "-=0.3")
-                .to(scrollRef.current, { opacity: 1, y: 0, duration: 0.7 }, "-=0.3");
+                .to(armandRef.current, { opacity: 1, y: 0, duration: 0.8 }, '-=0.45')
+                .to(ampersandRef.current, { opacity: 1, y: 0, duration: 0.6 }, '-=0.5')
+                .to(edelynRef.current, { opacity: 1, y: 0, duration: 0.8 }, '-=0.45')
+                .to(lineMobileRef.current, { opacity: 1, scaleX: 1, duration: 0.6 }, '-=0.35')
+                .to(lineDesktopRef.current, { opacity: 1, scaleX: 1, duration: 0.6 }, '-=0.35')
+                .to(dateRef.current, { opacity: 1, y: 0, duration: 0.8 }, '-=0.2')
+                .to(countdownRef.current, { opacity: 1, y: 0, duration: 0.9 }, '-=0.3')
+                .to(scrollRef.current, { opacity: 1, y: 0, duration: 0.7 }, '-=0.3');
         });
 
         return () => ctx.revert();
@@ -62,7 +73,10 @@ function Banner() {
     return (
         <section
             id="banner"
-            className="banner w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%] sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%] transition-all duration-300" style={{ opacity: window.scrollY === 0 ? 100 : scrollProgress}}>
+            className="banner w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%]
+            sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%]"
+            style={{ opacity: window.scrollY === 0 ? 1 : scrollProgress}}
+            >
             
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-black z-0"></div>
             <div className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
