@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Paste the Web app URL from Apps Script (ends in /exec).
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQ-uvbeXsESedNXPdeni3KFrR8Q7DzNq95stwXO82uAj1olJg8oU5QXotdN17bexBgfA/exec";
 
 export default function RSVP() {
@@ -23,15 +22,15 @@ export default function RSVP() {
   const dialogRef = useRef(null);
 
   const [code, setCode] = useState("");
-  const [guest, setGuest] = useState(null); // { name, rsvpDetails, isAttending }
+  const [guest, setGuest] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [modalError, setModalError] = useState("");
-  const [step, setStep] = useState("attend"); // "attend" -> "dietary" -> "done"
-  const [choice, setChoice] = useState(null); // "yes" or "no"
+  const [step, setStep] = useState("attend");
+  const [choice, setChoice] = useState(null);
   const [dietary, setDietary] = useState("");
-  const [isClosed, setIsClosed] = useState(false); // true after the closing date
+  const [isClosed, setIsClosed] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -195,7 +194,8 @@ export default function RSVP() {
         setIsClosed(true);
       } else if (data.found) {
         setModalError("");
-        setStep("attend");
+        // If they've already answered, skip straight to the locked message.
+        setStep(data.isAttending ? "locked" : "attend");
         setChoice(null);
         setDietary(data.dietary || "");
         setGuest(data);
@@ -218,8 +218,20 @@ export default function RSVP() {
     setStep("dietary");
   };
 
+  // STEP 1, "No": go to a confirm step instead of saving immediately.
+  const chooseNo = () => {
+    setModalError("");
+    setStep("confirmNo");
+  };
+
+  // Dietary step's "Submit" button goes to a confirmation step first — nothing is saved yet.
+  const goToConfirm = () => {
+    setModalError("");
+    setStep("confirm");
+  };
+
   // Saves the response, then shows the final message popup.
-  // "No" saves straight from step 1. "Yes" saves from the dietary step, together with the note.
+  // Called only from the confirm steps (both "yes" and "no" now require confirmation first).
   const saveResponse = async (attending) => {
     setSaving(true);
     setModalError("");
@@ -236,9 +248,15 @@ export default function RSVP() {
         }),
       });
       const data = await res.json();
+
       if (data.closed) {
         setGuest(null);
         setIsClosed(true);
+        return;
+      }
+      if (data.alreadyResponded) {
+        // Someone else (or another tab) saved a response first.
+        setStep("locked");
         return;
       }
       if (!data.ok) throw new Error("Save failed");
@@ -383,6 +401,11 @@ export default function RSVP() {
 
           {/* STATUS MESSAGES */}
           <div role="status" aria-live="polite" className="text-center">
+            {loading && (
+              <p className="pt-4 text-xs tracking-wide text-[#999999]">
+                This may take a moment...
+              </p>
+            )}
             {error && (
               <p className="pt-4 text-sm leading-6 tracking-wide text-[#A23B3B]">
                 {error}
@@ -451,16 +474,10 @@ export default function RSVP() {
 
               {step === "attend" && (
                 <>
-                  {/* STEP 1: CAN THEY ATTEND? ("Yes" saves nothing yet, "No" saves and finishes) */}
+                  {/* STEP 1: CAN THEY ATTEND? Neither Yes nor No saves yet — both go to a confirm step */}
                   <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
                     {guest.rsvpDetails}
                   </p>
-
-                  {guest.isAttending && (
-                    <p className="mt-4 text-sm tracking-wide text-[#777777]">
-                      Your current answer: {guest.isAttending}. You can change it below.
-                    </p>
-                  )}
 
                   <p className="mt-6 text-sm leading-6 tracking-wide text-[#444444]">
                     Please confirm if you will attend by clicking “YES” button
@@ -476,7 +493,6 @@ export default function RSVP() {
                   <div className="mt-8 flex gap-3">
                     <button
                       type="button"
-                      disabled={saving}
                       onClick={chooseYes}
                       className="
                         h-[48px]
@@ -489,8 +505,6 @@ export default function RSVP() {
                         transition-colors
                         duration-300
                         hover:bg-[#2B2B2B]
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
                       "
                     >
                       Yes
@@ -498,8 +512,7 @@ export default function RSVP() {
 
                     <button
                       type="button"
-                      disabled={saving}
-                      onClick={() => saveResponse("no")}
+                      onClick={chooseNo}
                       className="
                         h-[48px]
                         flex-1
@@ -512,11 +525,9 @@ export default function RSVP() {
                         transition-colors
                         duration-300
                         hover:bg-[#F2F2F2]
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
                       "
                     >
-                      {saving ? "Saving..." : "No"}
+                      No
                     </button>
                   </div>
                 </>
@@ -524,7 +535,7 @@ export default function RSVP() {
 
               {step === "dietary" && (
                 <>
-                  {/* STEP 2 (Yes only): DIETARY RESTRICTIONS + SUBMIT (saves everything) */}
+                  {/* STEP 2 (Yes only): DIETARY RESTRICTIONS, then goes to a confirm step */}
                   <p className="mt-6 text-sm leading-6 tracking-wide text-[#444444]">
                     If you have any dietary restrictions or allergies, please inform us
                     through this RSVP.
@@ -557,16 +568,9 @@ export default function RSVP() {
                     "
                   />
 
-                  {modalError && (
-                    <p className="mt-4 text-sm tracking-wide text-[#A23B3B]">
-                      {modalError}
-                    </p>
-                  )}
-
                   <button
                     type="button"
-                    disabled={saving}
-                    onClick={() => saveResponse("yes")}
+                    onClick={goToConfirm}
                     className="
                       mt-8
                       h-[48px]
@@ -579,21 +583,150 @@ export default function RSVP() {
                       transition-colors
                       duration-300
                       hover:bg-[#2B2B2B]
-                      disabled:cursor-not-allowed
-                      disabled:opacity-50
                     "
                   >
-                    {saving ? "Submitting..." : "Submit my response"}
+                    Submit my response
                   </button>
 
                   <button
                     type="button"
-                    disabled={saving}
                     onClick={() => setStep("attend")}
-                    className="mt-4 text-[11px] uppercase tracking-[0.2em] text-[#777777] transition-colors duration-300 hover:text-[#1F1F1F] disabled:opacity-50"
+                    className="mt-4 text-[11px] uppercase tracking-[0.2em] text-[#777777] transition-colors duration-300 hover:text-[#1F1F1F]"
                   >
                     Back
                   </button>
+                </>
+              )}
+
+              {step === "confirm" && (
+                <>
+                  {/* CONFIRM STEP (Yes path): last chance to double check — answers can't be changed after this */}
+                  <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
+                    Are you sure you want to submit this response?
+                  </p>
+
+                  <p className="mt-3 text-sm leading-6 tracking-wide text-[#A23B3B]">
+                    Once submitted, your answer cannot be changed.
+                  </p>
+
+                  {modalError && (
+                    <p className="mt-4 text-sm tracking-wide text-[#A23B3B]">
+                      {modalError}
+                    </p>
+                  )}
+
+                  <div className="mt-8 flex gap-3">
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => setStep("dietary")}
+                      className="
+                        h-[48px]
+                        flex-1
+                        border
+                        border-[#1F1F1F]
+                        text-[11px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-[#1F1F1F]
+                        transition-colors
+                        duration-300
+                        hover:bg-[#F2F2F2]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                      "
+                    >
+                      Go back
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => saveResponse("yes")}
+                      className="
+                        h-[48px]
+                        flex-1
+                        bg-[#1F1F1F]
+                        text-[11px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-white
+                        transition-colors
+                        duration-300
+                        hover:bg-[#2B2B2B]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                      "
+                    >
+                      {saving ? "Submitting..." : "Yes, submit"}
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {step === "confirmNo" && (
+                <>
+                  {/* CONFIRM STEP (No path): last chance to double check — answers can't be changed after this */}
+                  <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
+                    Are you sure you won’t be able to attend?
+                  </p>
+
+                  <p className="mt-3 text-sm leading-6 tracking-wide text-[#A23B3B]">
+                    Once submitted, your answer cannot be changed.
+                  </p>
+
+                  {modalError && (
+                    <p className="mt-4 text-sm tracking-wide text-[#A23B3B]">
+                      {modalError}
+                    </p>
+                  )}
+
+                  <div className="mt-8 flex gap-3">
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => setStep("attend")}
+                      className="
+                        h-[48px]
+                        flex-1
+                        border
+                        border-[#1F1F1F]
+                        text-[11px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-[#1F1F1F]
+                        transition-colors
+                        duration-300
+                        hover:bg-[#F2F2F2]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                      "
+                    >
+                      Go back
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => saveResponse("no")}
+                      className="
+                        h-[48px]
+                        flex-1
+                        bg-[#1F1F1F]
+                        text-[11px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-white
+                        transition-colors
+                        duration-300
+                        hover:bg-[#2B2B2B]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                      "
+                    >
+                      {saving ? "Submitting..." : "Yes, submit"}
+                    </button>
+                  </div>
                 </>
               )}
 
@@ -604,6 +737,36 @@ export default function RSVP() {
                     {choice === "yes"
                       ? "Thank you for confirming and see you on Jan 15, 2027!"
                       : "We understand that you won’t be able to join us on our special day. Thank you for letting us know, and please know that you’ll be missed!"}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={() => setGuest(null)}
+                    className="
+                      mt-8
+                      h-[48px]
+                      w-full
+                      bg-[#1F1F1F]
+                      text-[11px]
+                      uppercase
+                      tracking-[0.2em]
+                      text-white
+                      transition-colors
+                      duration-300
+                      hover:bg-[#2B2B2B]
+                    "
+                  >
+                    Close
+                  </button>
+                </>
+              )}
+
+              {step === "locked" && (
+                <>
+                  {/* ALREADY RESPONDED: locked, no Yes/No options shown */}
+                  <p className="mt-6 text-base leading-7 tracking-wide text-[#858585]">
+                    You have already submitted your response. Please contact
+                    the groom or the bride for changes.
                   </p>
 
                   <button

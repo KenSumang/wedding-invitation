@@ -7,8 +7,7 @@ import MapPinIcon from '../assets/map-pin.svg';
 
 const HEADLINE = 'We invite you to witness our matrimony';
 
-// Splits text into per-letter spans (for the stagger animation) while keeping
-// a full, unsplit copy of the text for screen readers.
+
 function SplitLetters({ text }) {
     const words = text.split(' ');
 
@@ -52,10 +51,6 @@ function Invitation() {
             const section = sectionRef.current;
             if (!section) return;
 
-            // How far the section has scrolled up into the viewport: 0 while its
-            // top is still at (or below) the bottom of the viewport, growing as
-            // it moves further in. This ties the fade to the section's own
-            // position instead of the page's total scroll offset.
             const enteredBy = Math.max(window.innerHeight - section.getBoundingClientRect().top, 0);
 
             const bgProgress = Math.min(enteredBy / FADE_DISTANCE, 2);
@@ -76,8 +71,7 @@ function Invitation() {
 
     const isVisible = elementVisibility > 0;
 
-    // Hide everything ahead of its reveal so nothing flashes fully-formed
-    // before the timeline below plays it in.
+
     useLayoutEffect(() => {
         gsap.set(
             [subtitleRef.current, paraRef.current, detailsRef.current],
@@ -89,8 +83,6 @@ function Invitation() {
         }
     }, []);
 
-    // Full-section reveal, fired the moment the container starts its own
-    // fade-in (isVisible flips true) so it plays alongside that fade.
     useEffect(() => {
         if (!isVisible || hasAnimatedRef.current) return;
 

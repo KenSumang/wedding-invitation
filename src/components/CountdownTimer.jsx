@@ -31,6 +31,20 @@ export default function CountdownTimer({
   // targetDate = "2026-09-19T12:04:00+08:00",
 }) {
   const [tick, setTick] = useState(0);
+  // Tailwind's default `sm` breakpoint is 640px — keep this in sync if you
+  // customize it in tailwind.config.js
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 639px)");
+
+    setIsMobile(mql.matches);
+
+    const handleChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", handleChange);
+
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     let timeoutId;
@@ -66,11 +80,11 @@ export default function CountdownTimer({
   const timeLeft = getTimeRemaining(targetDate);
 
   const units = [
-    { label: "weeks", value: timeLeft.weeks },
-    { label: "days", value: timeLeft.days },
-    { label: "hours", value: timeLeft.hours },
-    { label: "minutes", value: timeLeft.minutes },
-    { label: "seconds", value: timeLeft.seconds },
+    { label: "weeks", abbr: "weeks", value: timeLeft.weeks },
+    { label: "days", abbr: "days", value: timeLeft.days },
+    { label: "hours", abbr: "hours", value: timeLeft.hours },
+    { label: "minutes", abbr: "mins", value: timeLeft.minutes },
+    { label: "seconds", abbr: "sec", value: timeLeft.seconds },
   ];
 
   return (
@@ -85,13 +99,10 @@ export default function CountdownTimer({
             {units.map((unit, i) => (
               <div
                 key={unit.label}
-                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center pr-3 md:pr-4 2xl:pr-5 ${
-                  i === 0
-                    ? "pl-0"
-                    : "pl-1.5 sm:pl-3 md:pl-4 2xl:pl-5 border-l border-white/20"
+                className={`flex flex-1 md:flex-none min-w-0 flex-col items-center px-1.5 sm:px-3 md:px-4 2xl:px-5 ${
+                  i === 0 ? "" : "border-l border-white/20"
                 }`}
               >
-
                 <span
                   className="
                     text-countdown-number
@@ -100,6 +111,7 @@ export default function CountdownTimer({
                     font-normal
                     text-[#D9A441]
                     tabular-nums
+                    -mr-[.18em]
                   "
                 >
                   {String(unit.value).padStart(2, "0")}
@@ -114,9 +126,10 @@ export default function CountdownTimer({
                     tracking-[.18em]
                     uppercase
                     text-white
+                    -mr-[.18em]
                   "
                 >
-                  {unit.label}
+                  {isMobile ? unit.abbr : unit.label}
                 </span>
               </div>
             ))}
