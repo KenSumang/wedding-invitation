@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import inspiration from "../assets/outfit_inspo.jpg";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const inspirationImage = inspiration;
 
@@ -127,6 +131,27 @@ function DressCode() {
     const triggerRef = useRef(null);
     const closeRef = useRef(null);
 
+    // ---- animation refs (attached to elements that already exist; no new
+    // wrapper elements, so layout/alignment is untouched) ----
+    const headingRootRef = useRef(null);
+    const subtitleRef = useRef(null);
+    const lineTopRef = useRef(null);
+    const titleRef = useRef(null);
+    const lineBottomRef = useRef(null);
+    const descRef = useRef(null);
+
+    const paletteRootRef = useRef(null);
+    const paletteRowRef = useRef(null); // arrows + scroller row
+    const dotsRef = useRef(null);
+    const captionRef = useRef(null);
+
+    const examplesRootRef = useRef(null);
+    const menRef = useRef(null);
+    const dividerLineRef = useRef(null);
+    const ladiesRef = useRef(null);
+
+    const buttonWrapRef = useRef(null);
+
     const handleScroll = () => {
         const el = scrollerRef.current;
         if (!el) return;
@@ -175,6 +200,65 @@ function DressCode() {
         };
     }, [inspirationOpen]);
 
+    // One sequential reveal: heading -> palette -> examples -> button, fired
+    // by a single scroll trigger so the four groups always play in strict
+    // order, one after another, rather than each on its own scroll position.
+    useEffect(() => {
+        if (!headingRootRef.current) return;
+
+        const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        const headingFades = [subtitleRef.current, titleRef.current, descRef.current];
+        const headingLines = [lineTopRef.current, lineBottomRef.current];
+        const swatches = scrollerRef.current?.querySelectorAll("li") ?? [];
+
+        gsap.set(headingFades, { opacity: 0, y: 16 });
+        gsap.set(headingLines, { opacity: 0, scaleX: 0 });
+        gsap.set(paletteRowRef.current, { opacity: 0, y: 16 });
+        gsap.set(swatches, { opacity: 0, y: 10 });
+        gsap.set([dotsRef.current, captionRef.current], { opacity: 0, y: 12 });
+        gsap.set([menRef.current, ladiesRef.current], { opacity: 0, y: 16 });
+        gsap.set(dividerLineRef.current, { opacity: 0, scaleY: 0, transformOrigin: "center top" });
+        gsap.set(buttonWrapRef.current, { opacity: 0, y: 14, scale: 0.97 });
+
+        if (prefersReducedMotion) {
+            gsap.set([...headingFades, paletteRowRef.current, ...swatches, dotsRef.current, captionRef.current, menRef.current, ladiesRef.current], { opacity: 1, y: 0 });
+            gsap.set(headingLines, { opacity: 1, scaleX: 1 });
+            gsap.set(dividerLineRef.current, { opacity: 1, scaleY: 1 });
+            gsap.set(buttonWrapRef.current, { opacity: 1, y: 0, scale: 1 });
+            return;
+        }
+
+        const ctx = gsap.context(() => {
+            gsap
+                .timeline({
+                    defaults: { ease: "power2.out" },
+                    scrollTrigger: { trigger: headingRootRef.current, start: "top 85%", once: true },
+                })
+                // Heading
+                .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.9 })
+                .to(lineTopRef.current, { opacity: 1, scaleX: 1, duration: 0.7 }, "-=0.5")
+                .to(titleRef.current, { opacity: 1, y: 0, duration: 0.9 }, "-=0.4")
+                .to(lineBottomRef.current, { opacity: 1, scaleX: 1, duration: 0.7 }, "-=0.5")
+                .to(descRef.current, { opacity: 1, y: 0, duration: 0.9 }, "-=0.4")
+                // Palette (starts only after heading group above has finished)
+                .to(paletteRowRef.current, { opacity: 1, y: 0, duration: 0.8 })
+                .to(swatches, { opacity: 1, y: 0, duration: 0.5, stagger: 0.025 }, "-=0.45")
+                .to(dotsRef.current, { opacity: 1, y: 0, duration: 0.6 }, "-=0.2")
+                .to(captionRef.current, { opacity: 1, y: 0, duration: 0.6 }, "-=0.35")
+                // Examples (starts only after palette group above has finished)
+                .to(menRef.current, { opacity: 1, y: 0, duration: 0.9 })
+                .to(dividerLineRef.current, { opacity: 1, scaleY: 1, duration: 0.7 }, "-=0.55")
+                .to(ladiesRef.current, { opacity: 1, y: 0, duration: 0.9 }, "-=0.6")
+                // Button (starts only after examples group above has finished)
+                .to(buttonWrapRef.current, { opacity: 1, y: 0, scale: 1, duration: 0.8 });
+        });
+
+        return () => ctx.revert();
+    }, []);
+
     return (
         <section id="dress-code" className="dress-code w-full min-h-lvh pb-16">
             <div className="container max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
@@ -182,16 +266,16 @@ function DressCode() {
                     <div className="contents w-full h-full flex flex-col mt-20">
 
                         {/* Heading */}
-                        <div className="details-a flex flex-col items-center mx-auto gap-8 mb-10 md:justify-between md:items-start md:mx-0">
-                            <p className="uppercase text-subtitle tracking-[0.28em] text-subtitle-color">Dress Code</p>
+                        <div ref={headingRootRef} className="details-a flex flex-col items-center mx-auto gap-8 mb-10 md:justify-between md:items-start md:mx-0">
+                            <p ref={subtitleRef} className="uppercase text-subtitle tracking-[0.28em] text-subtitle-color">Dress Code</p>
 
-                            <div className="line hidden w-9 h-[.5px] bg-[#BDBDBD] md:block md:ml-1"></div>
+                            <div ref={lineTopRef} className="line hidden w-9 h-[.5px] bg-[#BDBDBD] md:block md:ml-1"></div>
 
-                            <h2 className="uppercase text-center text-title max-w-95 text-title-color tracking-[0.18em] md:text-start lg:max-w-2/3">Attire</h2>
+                            <h2 ref={titleRef} className="uppercase text-center text-title max-w-95 text-title-color tracking-[0.18em] md:text-start lg:max-w-2/3">Attire</h2>
 
-                            <div className="line w-9 h-[.4px] bg-[#BDBDBD] md:hidden xl:w-16"></div>
+                            <div ref={lineBottomRef} className="line w-9 h-[.4px] bg-[#BDBDBD] md:hidden xl:w-16"></div>
 
-                            <p className="text-center text-content tracking-wider max-w-80 md:text-start lg:max-w-1/2">
+                            <p ref={descRef} className="text-center text-content tracking-wider max-w-80 md:text-start lg:max-w-1/2">
                                 There is no specific color palette for our guests. We invite you to express your personal style and choose the colors you like from these options, while keeping your attire formal, elegant, and celebration-ready.
                             </p>
                         </div>
@@ -200,8 +284,8 @@ function DressCode() {
                         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
 
                             {/* Color palette: swipeable, 2 rows x 5 per page, arrows beside it */}
-                            <div className="palette flex w-full min-w-0 flex-col items-center gap-4 lg:w-1/2">
-                                <div className="flex w-full max-w-md items-center gap-1 sm:gap-3 md:max-w-xl lg:max-w-none">
+                            <div ref={paletteRootRef} className="palette flex w-full min-w-0 flex-col items-center gap-4 lg:w-1/2">
+                                <div ref={paletteRowRef} className="flex w-full max-w-md items-center gap-1 sm:gap-3 md:max-w-xl lg:max-w-none">
                                     <ArrowButton direction="prev" onClick={() => goTo(page - 1)} disabled={page <= 0} />
 
                                     <div
@@ -235,7 +319,7 @@ function DressCode() {
                                 </div>
 
                                 {/* Page dots (tap to jump) */}
-                                <div className="flex items-center gap-2">
+                                <div ref={dotsRef} className="flex items-center gap-2">
                                     {pages.map((_, index) => (
                                         <button
                                             key={index}
@@ -250,15 +334,15 @@ function DressCode() {
                                     ))}
                                 </div>
 
-                                <p className="mt-2 uppercase text-center text-details tracking-[0.2em] pl-[0.2em]">
+                                <p ref={captionRef} className="mt-2 uppercase text-center text-details tracking-[0.2em] pl-[0.2em]">
                                     Formal attire • Light &amp; airy • Spring &amp; summer-inspired
                                 </p>
                             </div>
 
                             {/* Gentlemen / Ladies */}
-                            <div className="dress-code-examples flex w-full min-w-0 max-w-2xl gap-4 mx-auto lg:mx-0 lg:w-1/2">
+                            <div ref={examplesRootRef} className="dress-code-examples flex w-full min-w-0 max-w-2xl gap-4 mx-auto lg:mx-0 lg:w-1/2">
 
-                            <div className="men-example flex flex-1 flex-col items-center gap-2">
+                            <div ref={menRef} className="men-example flex flex-1 flex-col items-center gap-2">
                                 <p className="flex min-h-[52px] items-center text-center uppercase text-details tracking-[0.2em] pl-[0.2em]">
                                     For the gentlemen
                                 </p>
@@ -268,9 +352,9 @@ function DressCode() {
                                 </p>
                             </div>
 
-                            <div className="line w-[.5px] self-stretch bg-[#BDBDBD]"></div>
+                            <div ref={dividerLineRef} className="line w-[.5px] self-stretch bg-[#BDBDBD]"></div>
 
-                            <div className="ladies-example flex flex-1 flex-col items-center gap-2">
+                            <div ref={ladiesRef} className="ladies-example flex flex-1 flex-col items-center gap-2">
                                 <p className="flex min-h-[52px] items-center text-center uppercase text-details tracking-[0.2em] pl-[0.2em]">
                                     For the ladies
                                 </p>
@@ -284,7 +368,7 @@ function DressCode() {
                         </div>
 
                         {/* Outfit inspiration button: bottom center */}
-                        <div className="mt-12 flex justify-center">
+                        <div ref={buttonWrapRef} className="mt-12 flex justify-center">
                             <button
                                 ref={triggerRef}
                                 type="button"
