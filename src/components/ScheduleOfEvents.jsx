@@ -23,40 +23,97 @@ const q = (root, selector) => gsap.utils.toArray(selector, root);
 /* ---------- Mobile: vertical line, draws itself as you scroll down the page ---------- */
 function animateMobile(root) {
   const fill = root.querySelector('.line-fill');
+  const items = q(root, '.event-item');
 
-  gsap.set(fill, { height: 0 });
-  gsap.to(fill, {
-    height: '100%',
-    ease: 'none',
+  if (!fill || !items.length) return;
+
+  const timeline = gsap.timeline({
+    defaults: {
+      ease: 'none',
+    },
     scrollTrigger: {
       trigger: root,
       start: 'top 65%',
       end: 'bottom 65%',
-      scrub: 0.5,
+      scrub: 0.15,
     },
   });
 
- 
-  q(root, '.event-item').forEach((item) => {
+  // Start with the line empty.
+  gsap.set(fill, {
+    height: 0,
+  });
+
+  // Start circles and details hidden.
+  items.forEach((item) => {
     const dot = item.querySelector('.event-dot');
     const parts = q(item, '.event-anim');
 
-    gsap.set(parts, { autoAlpha: 0, x: 24 });
+    gsap.set(dot, {
+      backgroundColor: '#6b7280',
+      scale: 1,
+    });
 
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: item,
-          start: 'center 60%',
-          toggleActions: 'play none none reverse',
-        },
-      })
-      .to(dot, { backgroundColor: REACHED, scale: 1.6, duration: 0.35, ease: 'back.out(3)' })
-      .to(
-        parts,
-        { autoAlpha: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.12 },
-        '<0.1'
-      );
+    gsap.set(parts, {
+      autoAlpha: 0,
+      x: 24,
+    });
+  });
+
+  timeline.to(
+    fill,
+    {
+      height: '100%',
+      duration: 1,
+    },
+    0
+  );
+
+  const rootHeight = root.offsetHeight;
+
+  items.forEach((item) => {
+    const dot = item.querySelector('.event-dot');
+    const parts = q(item, '.event-anim');
+
+    const dotPosition =
+      item.offsetTop +
+      dot.offsetTop +
+      dot.offsetHeight / 2;
+
+    const progress = gsap.utils.clamp(
+      0,
+      1,
+      dotPosition / rootHeight
+    );
+
+    timeline.to(
+      dot,
+      {
+        backgroundColor: REACHED,
+        scale: 1.6,
+        duration: 0.04,
+        ease: 'back.out(3)',
+      },
+      progress
+    );
+
+    /*
+     * Details/icon appear immediately after the circle.
+     *
+     * Because this is on the same timeline, there is no
+     * separate ScrollTrigger that can get out of sync.
+     */
+    timeline.to(
+      parts,
+      {
+        autoAlpha: 1,
+        x: 0,
+        duration: 0.08,
+        ease: 'power3.out',
+        stagger: 0.02,
+      },
+      progress + 0.01
+    );
   });
 }
 
@@ -190,7 +247,7 @@ export default function ScheduleOfEvents() {
 
   return (
     <div className="SchedOfEvents w-full h-full">
-      <div className="container max-w-full h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18">
+      <div className="container max-w-full h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18 bg-[#F8F8F6]">
         <div className="wrapper w-full h-full">
           <div className="mobileVersionHeader lg:hidden flex flex-col gap-2">
             <p className="text-subtitle text-subtitle-color tracking-[.28em]">THE BIG DAY</p>

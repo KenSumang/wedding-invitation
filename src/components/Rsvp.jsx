@@ -61,8 +61,7 @@ export default function RSVP() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 78%",
-          toggleActions: "restart reverse restart reverse",
+          start: "top 78%"
         },
       });
 
