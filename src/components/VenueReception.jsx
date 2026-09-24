@@ -12,7 +12,7 @@ export default function VenueReception() {
         {/* =========================
             RECEPTION VENUE CONTENT
         ========================= */}
-        <div className="flex w-full flex-col px-8 py-[20px] sm:pr-10 sm:pl-[40px] md:w-[50%] md:pr-12 md:pl-[100px] md:my-[20px] lg:pr-12 ">
+        <div className="flex w-full flex-col px-8 pb-[20px] sm:pr-10 sm:pl-[40px] md:w-[50%] md:pr-12 md:pl-[100px] md:my-[20px] lg:pr-12 ">
           <div
             className="
             "
@@ -20,11 +20,11 @@ export default function VenueReception() {
             {/* Small line + VENUE */}
             
             <div className="details-a flex flex-col mx-auto gap-8 mb-10 md:justify-between md:items-start md:mx-0">
-                <p className="uppercase text-subtitle tracking-[0.28em] text-subtitle-color uppercase">Reception</p>
+                <p className="hidden uppercase text-subtitle tracking-[0.28em] text-subtitle-color uppercase md:block">Reception</p>
 
                 <div className="line hidden w-9 h-[.5px] bg-[#BDBDBD] md:block md:ml-1"></div>
 
-                <h2 className="uppercase text-start text-title max-w-95 text-title-color tracking-[0.18em] lg:max-w-2/3">El Jardin<br />De Zaida</h2>
+                <h2 className="hidden uppercase text-start text-title max-w-95 text-title-color tracking-[0.18em] md:block lg:max-w-2/3">El Jardin<br />De Zaida</h2>
 
                 <div className="line w-9 h-[.4px] bg-[#BDBDBD] md:hidden xl:w-16"></div>
 
@@ -61,7 +61,7 @@ export default function VenueReception() {
             </p> */}
 
             {/* Address */}
-            <div className="mt-8 flex flex-col items-start gap-4 md:my-[15px] md:gap-[25px]">
+            <div className="my-8 flex flex-col items-start gap-4">
               <div className="flex flex-row items-center">
                 <div className="h-10 w-10 mr-[20px] ">
                   <img src={mapIcon} alt="Map Icon" />
@@ -112,7 +112,7 @@ export default function VenueReception() {
                 href="https://www.google.com/maps/place/El+Jardin+de+Zaida/@13.7708716,121.408538,917m/data=!3m2!1e3!4b1!4m9!3m8!1s0x33bd3a57568dd317:0x43c752940f86f9b3!5m2!4m1!1i2!8m2!3d13.7708664!4d121.4111183!16s%2Fg%2F11c5b7m7sz?entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 flex h-[50px] w-[400px] items-center justify-center gap-3 bg-[#202223] px-6 font-sans text-[10px] font-normal tracking-[0.3em] text-white transition duration-300 hover:bg-[#3b3d3e] md:mt-[10px] md:h-[52px] md:w-[300px] md:text-[11px]"
+                className="mt-[10px] flex h-[50px] w-[400px] items-center justify-center gap-3 bg-[#202223] px-6 font-sans text-[10px] font-normal tracking-[0.3em] text-white transition duration-300 hover:bg-[#3b3d3e] md:mt-[10px] md:h-[52px] md:w-[300px] md:text-[11px]"
               >
                 VIEW ON MAP
                 <span className="text-lg leading-none tracking-normal">
@@ -133,8 +133,19 @@ export default function VenueReception() {
           <img
             src={receptionImage}
             alt="The Garden Valley Hotel"
-            className="block h-full w-auto object-cover"
+            className="block h-full w-auto object-contain object-center"
           />
+        </div>
+
+        {/* =========================
+            CHURCH VENUE MOBILE HEADER
+        ========================= */}
+        <div className="details-a flex flex-col mx-auto gap-[10px] ml-[7px] px-3 mt-[20px] md:hidden">
+            <p className="uppercase text-subtitle tracking-[0.28em] text-subtitle-color uppercase ">Reception</p>
+
+            <div className="line w-9 h-[.4px] bg-[#BDBDBD] mb-[15px] md:hidden"></div>
+
+            <h2 className="uppercase text-start text-title max-w-95 text-title-color tracking-[0.18em] ">El Jardin<br />De Zaida</h2>
         </div>
       </div>
     </section>

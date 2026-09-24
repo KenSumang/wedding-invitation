@@ -10,6 +10,7 @@ import CountdownTimer from '../components/CountdownTimer';
 import VenueChurch from '../components/VenueChurch';
 import VenueReception from '../components/VenueReception';
 import Footer from '../components/Footer';
+import Gift from '../components/Gift';
 
 function MainPage() {
   return (
@@ -21,6 +22,7 @@ function MainPage() {
       <VenueReception />
       <ScheduleOfEvents />
       <DressCode />
+      <Gift/>
       <Rsvp/>
       <Faq/>
       <Footer/>

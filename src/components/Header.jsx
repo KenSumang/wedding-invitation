@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NavData from './NavData';
+import LogoBlack from '../assets/Logo_black.avif';
+import LogoWhite from '../assets/Logo_white.avif';
 
 function NavigationData({ navData }) {
     return (
@@ -83,9 +85,20 @@ function Header() {
                                     ? "hidden md:flex"
                                     : "flex"
                             }`}>
-                                <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">A</h2>
-                                <p className="text-[22px] md:text-[24px] 2xl:text-[30px]">&</p>
-                                <h2 className="text-[24px] md:text-[26px] 2xl:text-[30px]">E</h2>
+                                <div className="logo relative w-16 h-16">
+                                    <img
+                                        src={LogoWhite}
+                                        alt="A & E Logo"
+                                        className="w-16 absolute"
+                                    />
+                                    <img
+                                        src={LogoBlack}
+                                        alt="A & E Logo"
+                                        className={`w-16 absolute transition-all duration-300 ${
+                                            isScrolled ? "opacity-100" : "opacity-0"
+                                        }`}
+                                    />
+                                </div>
                             </div>
                         </a>
 
@@ -95,7 +108,7 @@ function Header() {
                             <NavigationData navData={NavData} />
                         </ul>
 
-                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-350 bg-white/30 backdrop-blur-lg ${
+                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-300 bg-white/30 backdrop-blur-lg ${
                                 isSideBarOpen
                                     ? "right-0"
                                     : "-right-1/2"
@@ -104,9 +117,11 @@ function Header() {
                             <div className="logo-close flex justify-between">
                                 <a href="#">
                                     <div className="header-logo flex items-center mx-5 my-2 mt-5.5 gap-2 order-first transition duration-300 text-black">
-                                        <h2 className="text-[20px]">A</h2>
-                                        <p className="text-[20px]">&</p>
-                                        <h2 className="text-[20px]">E</h2>
+                                        <img
+                                            src={LogoBlack}
+                                            alt="A & E Logo"
+                                            className="w-10"
+                                        />
                                     </div>
                                 </a>
                                 <div
