@@ -11,6 +11,7 @@ import VenueChurch from '../components/VenueChurch';
 import VenueReception from '../components/VenueReception';
 import Footer from '../components/Footer';
 import Gift from '../components/Gift';
+import OurStory from '../components/OurStory';
 
 function MainPage() {
   return (
@@ -18,6 +19,7 @@ function MainPage() {
       <Header />
       <Banner />
       <Invitation />
+      <OurStory />
       <VenueChurch />
       <VenueReception />
       <ScheduleOfEvents />
