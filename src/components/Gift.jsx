@@ -42,10 +42,7 @@ export default function Gift() {
   const noteParaRef = useRef(null);
   const signatureRef = useRef(null);
 
-  // One sequential reveal: date -> "Gift Guide" letters -> paragraph ->
-  // divider -> "A Note from the Couple" letters -> paragraphs -> signature.
-  // A single scroll trigger drives the whole timeline so every piece plays
-  // strictly one after another instead of each on its own scroll position.
+
   useEffect(() => {
     if (!dateRef.current) return;
 

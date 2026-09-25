@@ -120,7 +120,9 @@ function Invitation() {
             className="invitation w-full h-full"
             style={{ backgroundColor: `rgba(0, 0, 0, ${scrollProgress})`}}
             >
-            <div className="container max-w-380 mx-auto h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18">
+            <div className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380 h-full py-16 bg-[#F8F8F6]">
+
+            <div ></div>
                 <div className="wrapper w-full h-full">
                     <div
                         className="contents w-full h-full grid grid-cols-1 md:grid-cols-5"
