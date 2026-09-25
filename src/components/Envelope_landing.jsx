@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -44,8 +44,10 @@ export default function EnvelopeCTA({ href = "/app" }) {
   const letterRef = useRef(null);
   const overlayRef = useRef(null);
   const timelineRef = useRef(null);
+  const bottomImgRef = useRef(null);
 
   const [isAnimating, setIsAnimating] = useState(false);
+  const [assetsReady, setAssetsReady] = useState(false);
 
   const navigate = useNavigate();
 
@@ -103,8 +105,36 @@ export default function EnvelopeCTA({ href = "/app" }) {
     }
   );
 
+  useEffect(() => {
+    const imgs = [bottomImgRef.current, flapRef.current].filter(Boolean);
+    const pending = imgs.filter((img) => !img.complete);
+
+    if (pending.length === 0) {
+      setAssetsReady(true);
+      return;
+    }
+
+    let remaining = pending.length;
+    const done = () => {
+      remaining -= 1;
+      if (remaining <= 0) setAssetsReady(true);
+    };
+
+    pending.forEach((img) => {
+      img.addEventListener("load", done, { once: true });
+      img.addEventListener("error", done, { once: true }); // don't get stuck if one fails
+    });
+
+    return () => {
+      pending.forEach((img) => {
+        img.removeEventListener("load", done);
+        img.removeEventListener("error", done);
+      });
+    };
+  }, []);
+
   const handleClick = useCallback(async () => {
-    if (isAnimating) return;
+    if (isAnimating || !assetsReady) return;
 
     setIsAnimating(true);
 
@@ -125,7 +155,7 @@ export default function EnvelopeCTA({ href = "/app" }) {
     await animationDone;
 
     navigate(href);
-  }, [isAnimating, href, navigate]);
+  }, [isAnimating, assetsReady, href, navigate]);
 
   return (
     <div
@@ -152,11 +182,14 @@ export default function EnvelopeCTA({ href = "/app" }) {
           WebkitPerspective: "1600px",
           WebkitTapHighlightColor: "transparent",
           touchAction: "manipulation",
+          opacity: assetsReady ? 1 : 0.6,
+          transition: "opacity 0.3s ease",
         }}
         onClick={handleClick}
         role="button"
         tabIndex={0}
         aria-label="Open invitation"
+        aria-disabled={!assetsReady}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
             e.preventDefault();
@@ -168,6 +201,7 @@ export default function EnvelopeCTA({ href = "/app" }) {
 <picture style={{ display: "contents" }}>
   <source srcSet={envelopeBottomAvif} type="image/avif" />
   <img
+    ref={bottomImgRef}
     src={envelopeBottomPng}
     width={BOTTOM_DIMS.width}
     height={BOTTOM_DIMS.height}
@@ -272,7 +306,7 @@ export default function EnvelopeCTA({ href = "/app" }) {
           letterSpacing: "0.3em",
         }}
       >
-        Tap to open
+        {assetsReady ? "Tap to open" : "Loading..."}
       </p>
 
       <div

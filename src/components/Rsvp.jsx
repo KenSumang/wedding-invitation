@@ -7,6 +7,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQ-uvbeXsESedNXPdeni3KFrR8Q7DzNq95stwXO82uAj1olJg8oU5QXotdN17bexBgfA/exec";
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 export default function RSVP() {
   const sectionRef = useRef(null);
 
@@ -180,14 +192,18 @@ export default function RSVP() {
     const trimmed = code.trim();
     if (!trimmed) return;
 
+    if (!navigator.onLine) {
+      setError("You appear to be offline. Please check your connection and try again.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
     try {
-      const res = await fetch(
+      const data = await fetchWithTimeout(
         `${APPS_SCRIPT_URL}?code=${encodeURIComponent(trimmed)}`
       );
-      const data = await res.json();
 
       if (data.closed) {
         setIsClosed(true);
@@ -203,8 +219,12 @@ export default function RSVP() {
           "We couldn't find that code. Please check your invitation and try again."
         );
       }
-    } catch {
-      setError("Something went wrong. Please try again in a moment.");
+    } catch (err) {
+      setError(
+        err.name === "AbortError"
+          ? "This is taking longer than expected. Please check your connection and try again."
+          : "Something went wrong. Please try again in a moment."
+      );
     } finally {
       setLoading(false);
     }
@@ -232,12 +252,17 @@ export default function RSVP() {
   // Saves the response, then shows the final message popup.
   // Called only from the confirm steps (both "yes" and "no" now require confirmation first).
   const saveResponse = async (attending) => {
+    if (!navigator.onLine) {
+      setModalError("You appear to be offline. Please check your connection and try again.");
+      return;
+    }
+
     setSaving(true);
     setModalError("");
 
     try {
       // text/plain keeps this a "simple" request, which Apps Script accepts from a browser.
-      const res = await fetch(APPS_SCRIPT_URL, {
+      const data = await fetchWithTimeout(APPS_SCRIPT_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
@@ -246,7 +271,6 @@ export default function RSVP() {
           dietary: attending === "yes" ? dietary.trim() : "",
         }),
       });
-      const data = await res.json();
 
       if (data.closed) {
         setGuest(null);
@@ -263,8 +287,12 @@ export default function RSVP() {
       setChoice(attending);
       setStep("done");
       setCode("");
-    } catch {
-      setModalError("We couldn't save your response. Please try again.");
+    } catch (err) {
+      setModalError(
+        err.name === "AbortError"
+          ? "This is taking longer than expected. If you already tapped submit once, please check with us before resubmitting."
+          : "We couldn't save your response. Please try again."
+      );
     } finally {
       setSaving(false);
     }
@@ -329,6 +357,7 @@ export default function RSVP() {
             autoComplete="off"
             autoCapitalize="characters"
             spellCheck={false}
+            disabled={loading}
             className="
               h-[52px]
               w-full
@@ -346,6 +375,8 @@ export default function RSVP() {
               focus:outline-none
               focus-visible:ring-1
               focus-visible:ring-[#1F1F1F]
+              disabled:cursor-not-allowed
+              disabled:opacity-50
             "
           />
 
