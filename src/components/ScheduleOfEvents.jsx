@@ -246,7 +246,7 @@ export default function ScheduleOfEvents() {
   }, []);
 
   return (
-    <div className="SchedOfEvents w-full h-full">
+    <div className="SchedOfEvents w-full h-full overflow-x-hidden">
       <div className="container max-w-full h-full px-4 py-16 sm:px-6 md:py-18 md:px-10 2xl:px-18 bg-[#F8F8F6]">
         <div className="wrapper w-full h-full">
           <div className="mobileVersionHeader lg:hidden flex flex-col gap-2">

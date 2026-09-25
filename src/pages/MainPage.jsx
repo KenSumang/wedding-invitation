@@ -17,11 +17,11 @@ function MainPage() {
     <div>
       <Header />
       <Banner />
-      <Invitation />
-      <VenueChurch />
-      <VenueReception />
-      <ScheduleOfEvents />
-      <DressCode />
+      <Invitation/>
+      <VenueChurch/>
+      <VenueReception/>
+      <ScheduleOfEvents/>
+      <DressCode/>
       <Gift/>
       <Rsvp/>
       <Faq/>

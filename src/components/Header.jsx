@@ -111,11 +111,11 @@ function Header() {
                             <NavigationData navData={NavData} />
                         </ul>
 
-                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 -right-1/2 w-1/2 h-lvh transition-all duration-300 bg-white/30 backdrop-blur-lg ${
-                                isSideBarOpen
-                                    ? "right-0"
-                                    : "-right-1/2"
-                            }`}>
+                        <div className={`side-nav-links absolute flex flex-col md:hidden top-0 w-1/2 h-lvh transition-all duration-300 bg-white/30 backdrop-blur-lg ${
+                            isSideBarOpen
+                            ? "right-0"
+                            : "-right-full"
+                        }`}>
                             
                             <div className="logo-close flex justify-between">
                                 <a href="#">
