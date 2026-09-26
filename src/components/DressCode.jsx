@@ -260,7 +260,7 @@ function DressCode() {
     }, []);
 
     return (
-        <section id="dress-code" className="dress-code w-full min-h-lvh pb-16">
+        <section id="dress-code" className="dress-code w-full min-h-[90vh] pb-16">
             <div className="container max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
                 <div className="wrapper w-full h-full flex">
                     <div className="contents w-full h-full flex flex-col mt-20">
@@ -343,11 +343,11 @@ function DressCode() {
                             <div ref={examplesRootRef} className="dress-code-examples flex w-full min-w-0 max-w-2xl gap-4 mx-auto lg:mx-0 lg:w-1/2">
 
                             <div ref={menRef} className="men-example flex flex-1 flex-col items-center gap-2">
-                                <p className="flex min-h-[52px] items-center text-center uppercase text-details tracking-[0.2em] pl-[0.2em]">
+                                <p className="flex min-h-[52px] items-center text-center uppercase text-base tracking-[0.2em] pl-[0.2em]">
                                     For the gentlemen
                                 </p>
 
-                                <p className="max-w-56 text-center text-details tracking-wide">
+                                <p className="max-w-56 text-center text-base tracking-wide">
                                     Formal suits or coats are encouraged. Please choose any color above you prefer, except gray.
                                 </p>
                             </div>
@@ -355,11 +355,11 @@ function DressCode() {
                             <div ref={dividerLineRef} className="line w-[.5px] self-stretch bg-[#BDBDBD]"></div>
 
                             <div ref={ladiesRef} className="ladies-example flex flex-1 flex-col items-center gap-2">
-                                <p className="flex min-h-[52px] items-center text-center uppercase text-details tracking-[0.2em] pl-[0.2em]">
+                                <p className="flex min-h-[52px] items-center text-center uppercase text-base tracking-[0.2em] pl-[0.2em]">
                                     For the ladies
                                 </p>
 
-                                <p className="max-w-56 text-center text-details tracking-wide">
+                                <p className="max-w-56 text-center text-base tracking-wide">
                                     Long formal dresses or floor-length gowns in any color above or any print are welcome. We kindly ask that you reserve white for the bride.
                                 </p>
                             </div>

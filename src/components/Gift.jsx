@@ -91,7 +91,7 @@ export default function Gift() {
   }, []);
 
   return(
-    <section className="Gifts w-full min-h-screen bg-[#F8F8F6] py-[30px]">
+    <section className="Gifts w-full min-h-[85vh] bg-[#F8F8F6] py-[30px]">
       <div className="w-full h-full">
         <div className="max-w-full h-full flex flex-col items-end mr-[15px] md:items-center md:mr-[0px]">
 
