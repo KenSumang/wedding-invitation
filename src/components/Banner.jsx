@@ -16,11 +16,11 @@ function Banner() {
     const scrollRef = useRef(null);
 
     useEffect(() => {
-        const FADE_DISTANCE = 280;
+        const FADE_DISTANCE = 600;
 
         const handleScroll = () => {
             const bgProgress = Math.min(window.scrollY / FADE_DISTANCE, 2);
-            setScrollProgress(2 - bgProgress);
+            setScrollProgress(bgProgress);
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
@@ -42,6 +42,7 @@ function Banner() {
             countdownRef.current,
             scrollRef.current,
         ];
+
         const lines = [lineMobileRef.current, lineDesktopRef.current];
 
         gsap.set(fadeTargets, { opacity: 0, y: 18 });
@@ -73,12 +74,18 @@ function Banner() {
     return (
         <section
             id="banner"
-            className="banner w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%]
+            className="banner relative w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%]
             sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%]"
-            style={{ opacity: window.scrollY === 0 ? 1 : scrollProgress}}
+            // style={{ opacity: window.scrollY === 0 ? 1 : scrollProgress}}
             >
+
+            <div
+                className="absolute inset-0 z-20"
+                style={{ backgroundColor: `rgba(248, 248, 246, ${scrollProgress})`}}
+            ></div>
             
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-black z-0"></div>
+
             <div className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380">
                 <div className="wrapper w-full h-full flex flex-col md:items-start md:justify-center">
                     
