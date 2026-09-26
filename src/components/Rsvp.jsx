@@ -300,6 +300,7 @@ export default function RSVP() {
 
   return (
     <section
+      id="rsvp"
       ref={sectionRef}
       className="w-full px-6 py-16 sm:px-8 sm:py-20"
     >

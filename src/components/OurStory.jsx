@@ -87,7 +87,7 @@ export default function OurStory() {
   }, []);
 
   return(
-     <section className="ourstory w-full h-full">
+     <section id="our-story" className="ourstory w-full h-full">
       <div ref={rootRef} className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380 py-16">
         <div className="wrapper w-full h-full overflow-hidden">
           <div className="grid lg:grid-cols-2">

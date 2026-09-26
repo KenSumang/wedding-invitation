@@ -294,7 +294,7 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+    <section id="faq" className="w-full bg-[#F8F8F6] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[760px] lg:max-w-[1100px]">
         <div className="lg:flex lg:items-start lg:gap-16">
           {/* Column 1: Heading */}

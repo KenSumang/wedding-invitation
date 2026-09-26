@@ -103,9 +103,9 @@ export default function VenueChurch() {
   }, [isVisible]);
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#eeece8]">
+    <section id="venue" ref={sectionRef} className="w-full bg-[#eeece8]">
       <div
-        className="flex w-full flex-col bg-[#f8f7f4] p-4 sm:p-6 md:flex-row md:gap-10 md:p-10 2xl:p-18"
+        className="grid w-full grid-cols-1 bg-[#f8f7f4] p-4 sm:p-6 md:grid-cols-[45%_55%] md:gap-10 md:p-10 2xl:p-18"
         style={{
           opacity: elementVisibility,
           pointerEvents: isVisible ? 'auto' : 'none',
@@ -141,7 +141,7 @@ export default function VenueChurch() {
             CHURCH VENUE CONTENT
             (3rd/last on mobile, left side on desktop)
         ========================= */}
-        <div className="order-3 md:order-1 flex w-full flex-col pb-[20px] md:w-[45%]">
+        <div className="order-3 md:order-1 flex w-full flex-col pb-[20px]">
           <div className="">
             <div className="details-a flex flex-col gap-8 mb-10 md:justify-between md:items-start">
               <p ref={subtitleRef} className="hidden uppercase text-subtitle tracking-[0.28em] text-subtitle-color uppercase md:block">Church</p>

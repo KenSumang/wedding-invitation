@@ -190,7 +190,7 @@ function Invitation() {
                             </div>
                             <div ref={ctaRef} className="rsvp-cta flex justify-center mt-12 md:justify-start">
                                 
-                                <a  href="https://canva.link/invitation-a-and-e-nuptial"
+                                <a  href="https://canva.link/invitation-a-and-e-nuptial" 
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex h-[50px] w-full max-w-[400px] items-center justify-center gap-3 whitespace-nowrap bg-[#202223] px-6 font-sans text-[10px] font-normal uppercase tracking-[0.25em] text-white transition duration-300 hover:bg-[#3b3d3e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202223] md:h-[52px] md:w-[300px] md:text-[11px]"

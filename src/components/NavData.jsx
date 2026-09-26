@@ -2,42 +2,47 @@ const NavData = [
     {
         id: 1,
         label: "Home",
-        link: "#"
+        link: "#banner"
     },
     {
         id: 2,
-        label: "Our Story",
-        link: "#"
-    },
-    {
-        id: 3,
-        label: "Venue",
+        label: "Invitation",
         link: "#invitation"
     },
     {
+        id: 3,
+        label: "Our Story",
+        link: "#our-story"
+    },
+    {
         id: 4,
-        label: "Dress Code",
-        link: "#dress-code"
+        label: "Venue",
+        link: "#venue"
     },
     {
         id: 5,
         label: "Schedule",
-        link: "#invitation"
+        link: "#schedule"
     },
     {
         id: 6,
-        label: "FAQ",
-        link: "#"
+        label: "Dress Code",
+        link: "#dress-code"
     },
     {
         id: 7,
         label: "Gifts",
-        link: "#"
+        link: "#gifts"
     },
     {
         id: 8,
         label: "RSVP",
-        link: "#"
+        link: "#rsvp"
+    },
+    {
+        id: 9,
+        label: "FAQ",
+        link: "#faq"
     }
 ];
 
