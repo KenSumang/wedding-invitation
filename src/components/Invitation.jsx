@@ -123,8 +123,6 @@ function Invitation() {
             style={{ backgroundColor: `rgba(0, 0, 0, ${scrollProgress})`}}
             >
             <div className="container relative z-10 max-w-full min-h-[100vh] flex flex-col justify-center px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380 py-16 bg-[#F8F8F6]">
-
-            <div ></div>
                 <div className="wrapper w-full flex items-center justify-center">
                     <div
                         className="contents w-full grid grid-cols-1 md:grid-cols-5"
