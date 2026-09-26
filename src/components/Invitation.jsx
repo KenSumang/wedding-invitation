@@ -7,6 +7,11 @@ import MapPinIcon from '../assets/map-pin.svg';
 
 const HEADLINE = 'We invite you to witness our matrimony';
 
+const CREAM = { r: 248, g: 248, b: 246 };
+const BLACK = { r: 0, g: 0, b: 0 };
+
+const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+const lerp = (a, b, t) => a + (b - a) * t;
 
 function SplitLetters({ text }) {
     const words = text.split(' ');
@@ -34,6 +39,8 @@ function Invitation() {
     const [scrollProgress, setScrollProgress] = useState(0);
     const [elementVisibility, setElementVisibility] = useState(0);
 
+    const [bg, setBg] = useState({ r: BLACK.r, g: BLACK.g, b: BLACK.b, a: 1 });
+
     const sectionRef = useRef(null);
     const subtitleRef = useRef(null);
     const lineTopRef = useRef(null);
@@ -44,24 +51,60 @@ function Invitation() {
     const ctaRef = useRef(null);
     const hasAnimatedRef = useRef(false);
 
+    // useEffect(() => {
+    //     const FADE_DISTANCE = 250;
+    //     const VIS_RATE = 550;
+
+    //     const handleScroll = () => {
+    //         const section = sectionRef.current;
+    //         if (!section) return;
+
+    //         const enteredBy = Math.max(window.innerHeight - section.getBoundingClientRect().top, 0);
+
+    //         const bgProgress = Math.min(enteredBy / FADE_DISTANCE, 2);
+    //         const visProgress = Math.min(enteredBy / VIS_RATE, 1);
+
+    //         console.log(bgProgress);
+    //         setScrollProgress(2 - bgProgress);
+    //         setElementVisibility(visProgress);
+    //     };
+
+    //     handleScroll(); // set correct initial values if the page loads mid-scroll
+    //     window.addEventListener('scroll', handleScroll, { passive: true });
+    //     window.addEventListener('resize', handleScroll);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //         window.removeEventListener('resize', handleScroll);
+    //     };
+    // }, []);
+
     useEffect(() => {
-        const FADE_DISTANCE = 250;
+        const ENTER_DISTANCE = 600; // px to fade black -> cream as section enters
+        const EXIT_DISTANCE = 800;  // px to fade cream -> transparent as section leaves
         const VIS_RATE = 550;
 
         const handleScroll = () => {
             const section = sectionRef.current;
             if (!section) return;
 
-            const enteredBy = Math.max(window.innerHeight - section.getBoundingClientRect().top, 0);
+            const rect = section.getBoundingClientRect();
+            const vh = window.innerHeight;
 
-            const bgProgress = Math.min(enteredBy / FADE_DISTANCE, 2);
-            const visProgress = Math.min(enteredBy / VIS_RATE, 1);
+            const enteredBy = Math.max(vh - rect.top, 0);
+            const enterProgress = clamp(enteredBy / ENTER_DISTANCE, 0, 1);
+            const exitProgress = clamp((EXIT_DISTANCE - rect.bottom) / EXIT_DISTANCE, 0, 1);
 
-            setScrollProgress(2 - bgProgress);
-            setElementVisibility(visProgress);
+            setBg({
+                r: lerp(BLACK.r, CREAM.r, enterProgress),
+                g: lerp(BLACK.g, CREAM.g, enterProgress),
+                b: lerp(BLACK.b, CREAM.b, enterProgress),
+                a: 1 - exitProgress,
+            });
+
+            setElementVisibility(clamp(enteredBy / VIS_RATE, 0, 1));
         };
 
-        handleScroll(); // set correct initial values if the page loads mid-scroll
+        handleScroll();
         window.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('resize', handleScroll);
         return () => {
@@ -71,7 +114,6 @@ function Invitation() {
     }, []);
 
     const isVisible = elementVisibility > 0;
-
 
     useLayoutEffect(() => {
         gsap.set(
@@ -120,9 +162,11 @@ function Invitation() {
             id="invitation"
             ref={sectionRef}
             className="invitation w-full min-h-[90vh]"
-            style={{ backgroundColor: `rgba(0, 0, 0, ${scrollProgress})`}}
+            // style={{ opacity: window.scrollY === 0 ? 1 : scrollProgress}}
+            // style={{ backgroundColor: `rgba(248, 248, 246, ${scrollProgress})`}}
+            style={{ backgroundColor: `rgba(${bg.r}, ${bg.g}, ${bg.b}, ${bg.a})` }}
             >
-            <div className="container relative z-10 max-w-full min-h-[100vh] flex flex-col justify-center px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380 py-16 bg-[#F8F8F6]">
+            <div className="container relative z-10 max-w-full min-h-[100vh] flex flex-col justify-center px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380 py-16">
                 <div className="wrapper w-full flex items-center justify-center">
                     <div
                         className="contents w-full grid grid-cols-1 md:grid-cols-5"
