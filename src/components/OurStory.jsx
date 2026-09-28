@@ -1,9 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import OurStoryImage from '../assets/OurStoryImage.jpg'
 
 gsap.registerPlugin(ScrollTrigger);
+
+const START_COLOR = { r: 238, g: 236, b: 232 }; // rgb(238, 236, 232)
+const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
 // Splits text into per-letter spans (for the stagger animation) while keeping
 // a full, unsplit copy of the text for screen readers.
@@ -30,6 +33,9 @@ function SplitLetters({ text }) {
 }
 
 export default function OurStory() {
+  const [alpha, setAlpha] = useState(1);
+  const [elementVisibility, setElementVisibility] = useState(0);
+  const sectionRef = useRef(null); 
   const rootRef = useRef(null); // ScrollTrigger anchor
   const imageWrapRef = useRef(null);
   const subtitleRef = useRef(null);
@@ -38,6 +44,38 @@ export default function OurStory() {
   const storyRef = useRef(null); // wraps the paragraphs
   const bottomLineRef = useRef(null);
   const bottomTextRef = useRef(null);
+
+  useEffect(() => {
+      const FADE_DISTANCE = 600; // px over which it fades from opaque to transparent, starting at entry
+      const VIS_RATE = 550;
+
+      const handleScroll = () => {
+          const section = sectionRef.current;
+          if (!section) return;
+
+          const rect = section.getBoundingClientRect();
+          const vh = window.innerHeight;
+
+          const enteredBy = Math.max(vh - rect.top, 0);
+
+          // 0 at the moment the section's top touches the bottom of the viewport,
+          // climbing to 1 as you scroll FADE_DISTANCE px further
+          const fadeProgress = clamp(enteredBy / FADE_DISTANCE, 0, 1);
+
+          setAlpha(1 - fadeProgress); // starts opaque, fades to transparent
+          setElementVisibility(clamp(enteredBy / VIS_RATE, 0, 1));
+      };
+
+      handleScroll();
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleScroll);
+      return () => {
+          window.removeEventListener('scroll', handleScroll);
+          window.removeEventListener('resize', handleScroll);
+      };
+  }, []);
+
+  const isVisible = elementVisibility > 0;
 
   useEffect(() => {
     if (!rootRef.current) return;
@@ -87,7 +125,12 @@ export default function OurStory() {
   }, []);
 
   return(
-     <section id="our-story" className="ourstory w-full h-full">
+     <section
+      id="our-story"
+      className="ourstory w-full h-full"
+      ref={sectionRef}  
+      style={{ backgroundColor: `rgba(${START_COLOR.r}, ${START_COLOR.g}, ${START_COLOR.b}, ${alpha})` }}
+    >
       <div ref={rootRef} className="container relative z-10 max-w-full h-full px-4 sm:px-6 md:px-10 2xl:px-18 max-w-380 py-16">
         <div className="wrapper w-full h-full overflow-hidden">
           <div className="grid lg:grid-cols-2">

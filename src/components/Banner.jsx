@@ -76,12 +76,11 @@ function Banner() {
             id="banner"
             className="banner relative w-full h-svh bg-[url('./src/assets/A_E_banner_sm.avif')] md:bg-[url('./src/assets/A_E_banner_lg.avif')] bg-[55%_120%] bg-[length:auto_120%] xs:bg-[length:auto_130%] xs:bg-[55%_90%]
             sm:h-dvh sm:bg-[length:auto_158%] sm:bg-position-[center_67%] md:bg-[length:auto_140%] md:bg-[55%_80%]"
-            // style={{ opacity: window.scrollY === 0 ? 1 : scrollProgress}}
             >
 
             <div
                 className="absolute inset-0 z-20"
-                style={{ backgroundColor: `rgba(248, 248, 246, ${scrollProgress})`}}
+                style={{ backgroundColor: `rgba(238, 236, 232, ${scrollProgress})`}}
             ></div>
             
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-black z-0"></div>
