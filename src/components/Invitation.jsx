@@ -7,7 +7,7 @@ import MapPinIcon from '../assets/map-pin.svg';
 
 const HEADLINE = 'We invite you to witness our matrimony';
 
-const CREAM = { r: 248, g: 248, b: 246 };
+const CREAM = { r: 238, g: 236, b: 232 };
 const BLACK = { r: 0, g: 0, b: 0 };
 
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
@@ -80,7 +80,7 @@ function Invitation() {
 
     useEffect(() => {
         const ENTER_DISTANCE = 600; // px to fade black -> cream as section enters
-        const EXIT_DISTANCE = 800;  // px to fade cream -> transparent as section leaves
+        const EXIT_DISTANCE = 700;  // px to fade cream -> transparent as section leaves
         const VIS_RATE = 550;
 
         const handleScroll = () => {
