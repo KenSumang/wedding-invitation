@@ -152,7 +152,7 @@ export default function OurStory() {
             {/* =========================
                 STORY CONTENT
             ========================== */}
-            <div className="relative flex items-center px-7 py-14 sm:px-12 sm:py-16 lg:px-14 lg:py-20 xl:px-16 min-w-0">
+            <div className="relative flex items-center py-14 sm:py-16 lg:px-14 lg:py-20 xl:px-16 min-w-0">
 
               <div className="relative z-10 w-full max-w-2xl min-w-0">
 
