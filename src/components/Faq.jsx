@@ -298,7 +298,8 @@ export default function FAQ() {
       <div className="mx-auto w-full max-w-[760px] lg:max-w-[1100px]">
         <div className="lg:flex lg:items-start lg:gap-16">
           {/* Column 1: Heading */}
-          <div className="mb-8 sm:mb-10 lg:mb-0 lg:flex lg:w-[320px] lg:shrink-0 lg:flex-col lg:items-center lg:text-center">
+          {/* <div className="mb-8 sm:mb-10 lg:mb-0 lg:flex lg:w-[320px] lg:shrink-0 lg:flex-col lg:items-center lg:text-center"> */}
+          <div className="mb-8 sm:mb-10 lg:sticky lg:top-20 lg:mb-0 lg:flex lg:w-[320px] lg:shrink-0 lg:flex-col lg:items-center lg:text-center">
             <p
               ref={headingRef}
               className="mb-2 text-subtitle tracking-[0.28em] text-subtitle-color uppercase"
@@ -312,7 +313,7 @@ export default function FAQ() {
             >
               Questions
             </h2>
-
+ 
             <p
               lang="tl"
               className="mt-3 text-sm tracking-wide text-[#8A8A8A] italic sm:text-base"
